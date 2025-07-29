@@ -1,0 +1,83 @@
+-- ~/.config/nvim/lua/core/keymaps.lua
+
+-- Set leader key
+vim.g.mapleader = " "
+
+local keymap = vim.keymap
+
+-- General keymaps
+keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
+-- Clear search highlights
+keymap.set("n", "<ESC>", ":nohl<CR>", { desc = "Clear search highlights" })
+
+-- Window management
+keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
+keymap.set("n", "<leader>wh", "<C-w>s", { desc = "Split window horizontally" })
+keymap.set("n", "<leader>we", "<C-w>=", { desc = "Make splits equal size" })
+keymap.set("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
+
+-- Window navigation
+keymap.set('n', '<leader>e', ':Ex<CR>', { desc = 'File Explorer' })
+
+-- File operations
+keymap.set("n", "<leader>w", ":wa<CR>", { desc = "Save file" })
+keymap.set("n", "<leader>q", "<cmd>wa<CR><cmd>q<CR>", { desc = "Save and quit" })
+
+-- Move line
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", {desc = "Move blocking text down"})
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", {desc = "Move Blocking text up"})
+
+-- Terminal
+keymap.set("n", "<leader>tt", function()
+    -- Check if terminal buffer exists
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == 'terminal' then
+            local width = math.floor(vim.o.columns * 0.8)
+            local height = math.floor(vim.o.lines * 0.8)
+            local row = math.floor((vim.o.lines - height) / 2)
+            local col = math.floor((vim.o.columns - width) / 2)
+
+            vim.api.nvim_open_win(buf, true, {
+                relative = 'editor',
+                width = width,
+                height = height,
+                row = row,
+                col = col,
+                style = 'minimal',
+                border = 'rounded'
+            })
+            return
+        end
+    end
+    
+    -- Create new terminal if none exists
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'rounded'
+    })
+
+    vim.cmd('terminal')
+end, { desc = "Toggle floating terminal" })
+keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Search and replace
+keymap.set("n", "<leader>s", ":%s/", { desc = "Search and replace" })
+
+-- Insert blank lines
+keymap.set("n", "<leader>o", "o<Esc>", { desc = "New line below" })
+keymap.set("n", "<leader>O", "O<Esc>", { desc = "New line above" })
+
+-- Remote dangerous key
+keymap.set("n", "Q", "<nop>")
