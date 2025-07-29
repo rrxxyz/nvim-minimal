@@ -29,36 +29,35 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", {desc = "Move blocking text down"})
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", {desc = "Move Blocking text up"})
 
 -- Terminal
-keymap.set("n", "<leader>tt", function()
+local terminal_win = nil
+keymap.set("n", "tt", function()
+    -- Check if terminal window is already open
+    if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+        vim.api.nvim_win_close(terminal_win, false)
+        terminal_win = nil
+        return
+    end
+
     -- Check if terminal buffer exists
+    local terminal_buf = nil
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == 'terminal' then
-            local width = math.floor(vim.o.columns * 0.8)
-            local height = math.floor(vim.o.lines * 0.8)
-            local row = math.floor((vim.o.lines - height) / 2)
-            local col = math.floor((vim.o.columns - width) / 2)
-
-            vim.api.nvim_open_win(buf, true, {
-                relative = 'editor',
-                width = width,
-                height = height,
-                row = row,
-                col = col,
-                style = 'minimal',
-                border = 'rounded'
-            })
-            return
+            terminal_buf = buf
+            break
         end
     end
-    
-    -- Create new terminal if none exists
-    local buf = vim.api.nvim_create_buf(false, true)
+
+    -- Create new terminal buffer if none exists
+    if not terminal_buf then
+        terminal_buf = vim.api.nvim_create_buf(false, true)
+    end
+
     local width = math.floor(vim.o.columns * 0.8)
     local height = math.floor(vim.o.lines * 0.8)
     local row = math.floor((vim.o.lines - height) / 2)
     local col = math.floor((vim.o.columns - width) / 2)
 
-    vim.api.nvim_open_win(buf, true, {
+    terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
         relative = 'editor',
         width = width,
         height = height,
@@ -68,7 +67,10 @@ keymap.set("n", "<leader>tt", function()
         border = 'rounded'
     })
 
-    vim.cmd('terminal')
+    -- Start terminal if buffer is new
+    if vim.api.nvim_buf_line_count(terminal_buf) == 1 and vim.api.nvim_buf_get_lines(terminal_buf, 0, 1, false)[1] == "" then
+        vim.cmd('terminal')
+    end
 end, { desc = "Toggle floating terminal" })
 keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
