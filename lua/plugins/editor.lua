@@ -116,7 +116,6 @@ return {
                     F12 = '<F12>',
                 },
             },
-
             spec = {
                 { '<leader>s', group = '[S]earch' },
                 { '<leader>t', group = '[T]oggle' },
