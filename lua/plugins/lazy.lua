@@ -19,10 +19,7 @@ vim.opt.runtimepath:prepend(lazypath)
 -- Setup lazy.nvim with plugin specifications
 require("lazy").setup({
   -- Import plugin configurations from separate files
-  { import = "plugins.lsp" },
-  { import = "plugins.completion" },
-  { import = "plugins.editor" },
-  { import = "plugins.ui" },
+  { import = "plugins.custom" },
 }, {
   checker = {
     enabled = true, -- automatically check for plugin updates

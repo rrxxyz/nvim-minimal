@@ -7,8 +7,8 @@ opt.number = true
 opt.relativenumber = true
 
 -- Tabs & indentation
-opt.tabstop = 4
-opt.shiftwidth = 4
+opt.tabstop = 2
+opt.shiftwidth = 2
 opt.expandtab = true
 opt.autoindent = true
 
@@ -65,5 +65,6 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.have_nerd_font = true
 
+vim.cmd.colorscheme 'default'
 -- Suppress deprecation warnings (optional)
 vim.deprecate = function() end
