@@ -19,9 +19,12 @@ keymap.set("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" }
 
 -- Window navigation
 keymap.set('n', '<leader>e', ':Ex<CR>', { desc = 'File Explorer' })
+keymap.set('n', '<leader>[q', ':cprev<CR>', { desc = 'Go to prev from quick fix' })
+keymap.set('n', '<leader>]q', ':cnext<CR>', { desc = 'Go to next from quick fix' })
 
 -- File operations
-keymap.set("n", "<leader>w", ":wa<CR>", { desc = "Save file" })
+keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+keymap.set("n", "<leader>W", ":wa<CR>", { desc = "Save file" })
 keymap.set("n", "<leader>q", "<cmd>wa<CR><cmd>q<CR>", { desc = "Save and quit" })
 
 -- Move line
@@ -75,11 +78,7 @@ end, { desc = "Toggle floating terminal" })
 keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Search and replace
-keymap.set("n", "<leader>s", ":%s/", { desc = "Search and replace" })
-
--- Insert blank lines
-keymap.set("n", "<leader>o", "o<Esc>", { desc = "New line below" })
-keymap.set("n", "<leader>O", "O<Esc>", { desc = "New line above" })
+keymap.set("n", "<leader>sp", ":%s/", { desc = "Search and replace" })
 
 -- Remote dangerous key
 keymap.set("n", "Q", "<nop>")

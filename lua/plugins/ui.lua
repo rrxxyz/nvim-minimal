@@ -20,35 +20,15 @@ return {
                     command_palette = true, -- position the cmdline and popupmenu together
                     long_message_to_split = true, -- long messages will be sent to a split
                     inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
+                    lsp_doc_border = true, -- add a border to hover docs and signature help
                 },
-                views = {
-                    cmdline_popup = {
-                        position = {
-                            row = 5,
-                            col = "50%",
+                cmdline = {
+                    format = {
+                        search_down = {
+                            view = "cmdline",
                         },
-                        size = {
-                            width = 60,
-                            height = "auto",
-                        },
-                    },
-                    popupmenu = {
-                        relative = "editor",
-                        position = {
-                            row = 8,
-                            col = "50%",
-                        },
-                        size = {
-                            width = 60,
-                            height = 10,
-                        },
-                        border = {
-                            style = "rounded",
-                            padding = { 0, 1 },
-                        },
-                        win_options = {
-                            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+                        search_up = {
+                            view = "cmdline",
                         },
                     },
                 },
@@ -68,11 +48,7 @@ return {
             })
         end,
         dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
             "rcarriga/nvim-notify",
         }
     },
@@ -155,7 +131,6 @@ return {
                     },
                     sort_by = "insert_after_current",
                 },
-                highlights = require("catppuccin.groups.integrations.bufferline").get(),
             })
         end,
     },
@@ -187,68 +162,4 @@ return {
         "nvim-tree/nvim-web-devicons",
         lazy = true,
     },
-    -- Colorscheme
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1000,
-        config = function ()
-            require("catppuccin").setup({
-                flavour = "mocha", -- latte, frappe, macchiato, mocha
-                background = { -- :h background
-                    light = "latte",
-                    dark = "mocha",
-                },
-                transparent_background = false, -- disables setting the background color.
-                show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-                term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-                dim_inactive = {
-                    enabled = false, -- dims the background color of inactive window
-                    shade = "dark",
-                    percentage = 0.15, -- percentage of the shade to apply to the inactive window
-                },
-                no_italic = false, -- Force no italic
-                no_bold = false, -- Force no bold
-                no_underline = false, -- Force no underline
-                styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-                    comments = { "italic" }, -- Change the style of comments
-                    conditionals = { "italic" },
-                    loops = {},
-                    functions = {},
-                    keywords = {},
-                    strings = {},
-                    variables = {},
-                    numbers = {},
-                    booleans = {},
-                    properties = {},
-                    types = {},
-                    operators = {},
-                    -- miscs = {}, -- Uncomment to turn off hard-coded styles
-                },
-                color_overrides = {},
-                custom_highlights = {},
-                default_integrations = true,
-                integrations = {
-                    cmp = true,
-                    gitsigns = true,
-                    nvimtree = true,
-                    treesitter = true,
-                    bufferline = true,
-                    notify = false,
-                    mini = {
-                        enabled = true,
-                        indentscope_color = "",
-                    },
-                    -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-                },
-            })
-
-            -- Set colorscheme with error handling
-            local status_ok, _ = pcall(vim.cmd.colorscheme, "catppuccin")
-            if not status_ok then
-                vim.notify("Failed to load catppuccin colorscheme", vim.log.levels.WARN)
-                vim.cmd.colorscheme("default")
-            end
-        end,
-    }
 }
