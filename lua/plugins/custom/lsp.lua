@@ -27,7 +27,6 @@ return {
         "clangd",      -- C++
         "lua_ls",      -- Lua
         "bashls",      -- Bash
-        "r-languageserver"  -- R
       },
       automatic_installation = true,
     },
@@ -70,7 +69,6 @@ return {
         keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
         keymap.set("n", "K", vim.lsp.buf.hover, opts)
         keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
-        keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
       end
 
       -- Completion capabilities
@@ -91,7 +89,12 @@ return {
       -- Configure LSP servers
       lspconfig.pyright.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
+        on_attach = function(client, bufnr)
+          -- Disable pyright's formatting capability since we'll use external formatters
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+          on_attach(client, bufnr)
+        end,
       })
 
       lspconfig.clangd.setup({
