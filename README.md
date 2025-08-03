@@ -5,18 +5,27 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 ## ✨ Features
 
 ### Language Support
-- **Python**: Full LSP support with Pyright, virtual environment management, autoformatting
+- **Python**: Full LSP support with Pyright, virtual environment management, autoformatting with isort & black
 - **C++**: Complete C++ development environment with clangd LSP
-- **Additional**: Lua, Bash, R language servers included
+- **Lua**: Configured for Neovim configuration development
+- **Bash**: Shell script support with bashls
 
 ### Core Capabilities
 - 🚀 Lightning-fast startup with lazy.nvim plugin management
-- 🔍 Fuzzy finding with Telescope
-- 📝 Intelligent autocompletion with nvim-cmp
+- 🔍 Fuzzy finding with Telescope (files, grep, buffers, help, keymaps)
+- 📝 Intelligent autocompletion with nvim-cmp and LuaSnip
 - 🌳 Syntax highlighting with Treesitter
-- 🔧 Auto-formatting with conform.nvim
-- 📦 Virtual environment selection for Python
-- 🎨 Beautiful UI with Catppuccin theme
+- 🔧 Auto-formatting with conform.nvim (Python: isort + black, Lua: stylua, JS: prettier)
+- 📦 Virtual environment selection for Python with venv-selector
+- 🎨 Beautiful UI with status line and buffer management
+- 📋 Floating terminal with toggle functionality
+- 🔄 Undo tree visualization
+- 🔍 TODO comment highlighting
+- 📊 Git integration with gitsigns (hunks, blame, staging)
+- 🔔 Which-key for keybinding discovery
+- 💬 Code commenting with Comment.nvim
+- 🔗 Auto-pairing brackets and quotes
+- 📓 Jupyter notebook support with Quarto
 
 ## 🛠️ Installation
 
@@ -85,24 +94,52 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 | Key | Action |
 |-----|--------|
 | `<Space>` | Leader key |
+| `jk` (insert mode) | Exit insert mode |
+| `<ESC>` | Clear search highlights |
+| `<leader>e` | File explorer |
+| `<leader>w` | Save file |
+| `<leader>W` | Save all files |
+| `<leader>q` | Save and quit |
+| `<leader>sp` | Search and replace |
+
+### Telescope (Search & Navigation)
+| Key | Action |
+|-----|--------|
 | `<leader>sf` | Find files |
 | `<leader>sg` | Live grep search |
+| `<leader>sw` | Search current word |
+| `<leader>sd` | Search diagnostics |
+| `<leader>sh` | Search help |
+| `<leader>sk` | Search keymaps |
+| `<leader>ss` | Search Telescope commands |
+| `<leader>sr` | Resume last search |
+| `<leader>s.` | Search recent files |
+| `<leader>s/` | Search in open files |
+| `<leader>sn` | Search Neovim config files |
 | `<leader><leader>` | Browse buffers |
-| `<leader>e` | File explorer |
-| `tt` | Toggle floating terminal |
+| `<leader>/` | Fuzzy search in current buffer |
 
 ### LSP Commands (Python & C++)
 | Key | Action |
 |-----|--------|
-| `gd` | Go to definition |
-| `gr` | Find references |
-| `gi` | Go to implementation |
-| `gt` | Go to type definition |
+| `gD` | Go to declaration |
+| `gd` | Go to definition (Telescope) |
+| `gi` | Go to implementation (Telescope) |
+| `gr` | Find references (Telescope) |
+| `gt` | Go to type definition (Telescope) |
 | `K` | Hover documentation |
 | `<leader>ca` | Code actions |
 | `gR` | Rename symbol |
 | `<leader>f` | Format code |
+| `<leader>d` | Open diagnostic float |
 | `[d` / `]d` | Navigate diagnostics |
+| `<leader>lr` | Restart LSP |
+
+### Python Virtual Environment
+| Key | Action |
+|-----|--------|
+| `<leader>vs` | Select virtual environment |
+| `<leader>vc` | Use cached virtual environment |
 
 ### Window Management
 | Key | Action |
@@ -112,11 +149,53 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 | `<leader>wx` | Close current split |
 | `<leader>we` | Equalize splits |
 
+### Text Editing
+| Key | Action |
+|-----|--------|
+| `J` (visual) | Move selected text down |
+| `K` (visual) | Move selected text up |
+| `<leader>[q` | Previous quickfix item |
+| `<leader>]q` | Next quickfix item |
+
 ### Terminal
 | Key | Action |
 |-----|--------|
 | `tt` | Toggle floating terminal |
 | `<Esc>` (in terminal) | Exit terminal mode |
+
+### Git (Gitsigns)
+| Key | Action |
+|-----|--------|
+| `]c` | Next git change |
+| `[c` | Previous git change |
+| `<leader>hs` | Stage hunk |
+| `<leader>hS` | Stage buffer |
+| `<leader>hu` | Undo stage hunk |
+| `<leader>hp` | Preview hunk |
+| `<leader>hb` | Blame line |
+| `<leader>hd` | Diff against index |
+| `<leader>hD` | Diff against last commit |
+| `<leader>tb` | Toggle git blame line |
+| `<leader>tD` | Toggle git show deleted |
+
+### Utilities
+| Key | Action |
+|-----|--------|
+| `<leader>u` | Toggle undo tree |
+| `<leader>cm` | Open Mason (LSP manager) |
+
+### Completion (Insert Mode)
+| Key | Action |
+|-----|--------|
+| `<C-k>` | Previous completion item |
+| `<C-j>` | Next completion item |
+| `<C-b>` | Scroll docs up |
+| `<C-f>` | Scroll docs down |
+| `<C-Space>` | Trigger completion |
+| `<C-e>` | Abort completion |
+| `<CR>` | Confirm completion |
+| `<Tab>` | Next completion/snippet |
+| `<S-Tab>` | Previous completion/snippet |
 
 ## 📁 Project Structure
 
