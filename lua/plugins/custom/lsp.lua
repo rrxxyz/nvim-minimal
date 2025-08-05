@@ -49,7 +49,6 @@ return {
     },
     config = function()
       local lspconfig = require("lspconfig")
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
       local keymap = vim.keymap
 
@@ -72,7 +71,7 @@ return {
       end
 
       -- Completion capabilities
-      local capabilities = cmp_nvim_lsp.default_capabilities()
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       -- Configure diagnostic signs
       vim.diagnostic.config({
