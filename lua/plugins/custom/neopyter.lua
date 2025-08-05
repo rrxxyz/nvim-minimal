@@ -4,11 +4,41 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter', -- neopyter don't depend on `nvim-treesitter`, but does depend on treesitter parser of python
-      'AbaoFromCUG/websocket.nvim',  -- for mode='direct'
+      'AbaoFromCUG/websocket.nvim',      -- for mode='direct'
     },
+    config = function ()
+      require("blink-cmp").setup({
+        sources = {
+          per_filetype = {
+            python = { inherit_defaults = true, "neopyter" },
+          },
+          providers = {
+            neopyter = {
+              name = "Neopyter",
+              module = "neopyter.blink",
+              opts = {},
+            },
+          },
+        },
+      })
+
+      require'nvim-treesitter.configs'.setup {
+        textobjects = {
+          move = {
+            enable = true,
+            goto_next_start = {
+              ["]j"] = "@cellseparator",
+            },
+            goto_previous_start = {
+              ["[j"] = "@cellseparator",
+            },
+          },
+        },
+      }
+    end,
 
     opts = {
-      mode="direct",
+      mode = "direct",
       remote_address = "127.0.0.1:9001",
       file_pattern = { "*.ju.*" },
       on_attach = function(buf)
