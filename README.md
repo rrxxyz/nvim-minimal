@@ -1,22 +1,22 @@
-# Neovim Configuration for Python & C++ Development
+# Neovim Configuration for Python, C++, Rust & Lua Development
 
-A modern, feature-rich Neovim configuration optimized for Python and C++ development with LSP, autocompletion, and powerful editing tools.
+A modern, feature-rich Neovim configuration optimized for Python, C++, Rust, and Lua development with LSP, autocompletion, and powerful editing tools.
 
 ## ✨ Features
 
 ### Language Support
-- **Python**: Full LSP support with Pyright, virtual environment management, autoformatting with isort & black
-- **C++**: Complete C++ development environment with clangd LSP
-- **Lua**: Configured for Neovim configuration development
+- **Python**: Full LSP support with Pyright, autoformatting with isort & black
+- **C++**: Complete C++ development environment with clangd LSP, formatting with clang-format
+- **Rust**: Full support with rust-analyzer LSP
+- **Lua**: Configured for Neovim configuration development with stylua formatting
 - **Bash**: Shell script support with bashls
 
 ### Core Capabilities
 - 🚀 Lightning-fast startup with lazy.nvim plugin management
 - 🔍 Fuzzy finding with Telescope (files, grep, buffers, help, keymaps)
-- 📝 Intelligent autocompletion with nvim-cmp and LuaSnip
+- 📝 Intelligent autocompletion with blink.cmp and friendly-snippets
 - 🌳 Syntax highlighting with Treesitter
-- 🔧 Auto-formatting with conform.nvim (Python: isort + black, Lua: stylua, JS: prettier)
-- 📦 Virtual environment selection for Python with venv-selector
+- 🔧 Auto-formatting with conform.nvim (Python: isort + black, Lua: stylua, JS: prettier, C++: clang-format)
 - 🎨 Beautiful UI with status line and buffer management
 - 📋 Floating terminal with toggle functionality
 - 🔄 Undo tree visualization
@@ -25,7 +25,6 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 - 🔔 Which-key for keybinding discovery
 - 💬 Code commenting with Comment.nvim
 - 🔗 Auto-pairing brackets and quotes
-- 📓 Jupyter notebook support with Quarto
 
 ## 🛠️ Installation
 
@@ -52,28 +51,17 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
    nvim
    ```
 
-## 🎯 Python Development
+## 🎯 Language-Specific Development
 
-### Features
+### Python
 - **LSP Server**: Pyright for type checking, IntelliSense, and refactoring
-- **Virtual Environment**: Automatic detection and easy switching
-- **Formatting**: isort for import sorting
-- **Jupyter Support**: Quarto integration for notebook-style development
+- **Formatting**: Automatic formatting with isort (imports) and black (code)
+- **Features**: Hover documentation (`K`), go to definition (`gd`), find references (`gr`), code actions (`<leader>ca`)
 
-### Python-Specific Keybindings
-| Key | Action |
-|-----|--------|
-| `<leader>vs` | Select Python virtual environment |
-| `<leader>vc` | Use cached virtual environment |
-
-### Getting Started with Python
-1. Open a Python project in Neovim
-2. Use `<leader>vs` to select your virtual environment
-3. LSP will automatically activate with:
-   - Hover documentation (`K`)
-   - Go to definition (`gd`)
-   - Find references (`gr`)
-   - Code actions (`<leader>ca`)
+### Rust
+- **LSP Server**: rust-analyzer for comprehensive Rust development
+- **Features**: Intelligent completion, type hints, error diagnostics, and refactoring
+- **Integration**: Full LSP integration with all standard keybindings
 
 ## ⚡ C++ Development
 
@@ -135,11 +123,6 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 | `[d` / `]d` | Navigate diagnostics |
 | `<leader>lr` | Restart LSP |
 
-### Python Virtual Environment
-| Key | Action |
-|-----|--------|
-| `<leader>vs` | Select virtual environment |
-| `<leader>vc` | Use cached virtual environment |
 
 ### Window Management
 | Key | Action |
@@ -212,9 +195,8 @@ A modern, feature-rich Neovim configuration optimized for Python and C++ develop
 │       ├── lazy.lua                      # Plugin manager setup
 │       └── custom/
 │           ├── lsp.lua                   # LSP configuration (Pyright, clangd)
-│           ├── completion.lua            # nvim-cmp setup
+│           ├── completion.lua            # blink.cmp setup
 │           ├── telescope.lua             # Fuzzy finder
-│           ├── venv-selector.lua         # Python virtual environment
 │           ├── autoformat.lua            # Code formatting
 │           └── ...                       # Other plugin configs
 ```
@@ -227,13 +209,13 @@ The following language servers are automatically installed:
 |----------|--------|----------|
 | Python | Pyright | Type checking, IntelliSense, imports |
 | C++ | clangd | Completion, diagnostics, refactoring |
+| Rust | rust-analyzer | Completion, diagnostics, refactoring, type hints |
 | Lua | lua_ls | Neovim configuration development |
 | Bash | bashls | Shell script support |
-| R | r-languageserver | Statistical computing |
 
 ## 🎨 UI Features
 
-- **Theme**: Catppuccin colorscheme
+- **Theme**: Default colorscheme
 - **Status Line**: Custom status line with git integration
 - **Buffer Line**: Tab-like buffer navigation
 - **Icons**: Nerd Font icons throughout the interface
@@ -273,9 +255,13 @@ keymap.set("n", "<leader>xx", ":YourCommand<CR>", { desc = "Description" })
 ## 🚨 Troubleshooting
 
 ### Python Issues
-- **Virtual environment not detected**: Use `<leader>vs` to manually select
 - **Pyright not working**: Check that Python is in your PATH
 - **Import errors**: Ensure your project structure includes `__init__.py` files
+
+### Rust Issues
+- **rust-analyzer not working**: Ensure Rust toolchain is installed via rustup
+- **Slow performance**: rust-analyzer may be building/indexing the project
+- **Missing completions**: Check that Cargo.toml is present in project root
 
 ### C++ Issues
 - **clangd not providing completions**: Create a `compile_commands.json` file
