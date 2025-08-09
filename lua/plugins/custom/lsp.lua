@@ -27,7 +27,7 @@ return {
         "clangd",      -- C++
         "lua_ls",      -- Lua
         "bashls",      -- Bash
-        "rust-analyzer" --rust
+        "rust_analyzer" --rust
       },
       automatic_installation = true,
     },
