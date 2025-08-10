@@ -40,7 +40,7 @@ return {
                     max_prefix_length = 30,
                     truncate_names = true,
                     tab_size = 21,
-                    diagnostics = "nvim_lsp" | "coc",
+                    diagnostics = "nvim_lsp",
                     diagnostics_update_in_insert = false,
                     diagnostics_indicator = function(count, level, diagnostics_dict, context)
                         local icon = level:match("error") and " " or " "
