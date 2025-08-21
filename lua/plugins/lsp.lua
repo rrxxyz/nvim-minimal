@@ -6,15 +6,15 @@ return {
     opts = {
 	servers = {
 	    lua_ls = {},
-	    pyright = {},
-	    rust_analyzer = {
-		settings = {
-		    ["rust-analyzer"] = {
-			cargo = { allFeatures = true }
-		    }
-		}
-	    },
-	    clangd = {}
+	    -- pyright = {},
+	    -- rust_analyzer = {
+		-- settings = {
+		--     ["rust-analyzer"] = {
+		-- 	cargo = { allFeatures = true }
+		--     }
+		-- }
+	    -- },
+	    -- clangd = {}
 	}
     },
     config = function(_, opts)
