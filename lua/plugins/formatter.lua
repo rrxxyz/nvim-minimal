@@ -3,9 +3,9 @@ return {
     opts = {
 	formatters_by_ft = {
 	    lua = { "stylua" },
-	    -- python = { "isort", "black" },
-	    -- rust = { "rustfmt", lsp_format = "fallback" },
-	    -- cpp = { "clang-format" }
+	    python = { "isort", "black" },
+	    rust = { "rustfmt", lsp_format = "fallback" },
+	    cpp = { "clang-format" }
 	},
 	format_on_save = {
 	    -- These options will be passed to conform.format()
