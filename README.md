@@ -63,19 +63,16 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 ### Telescope (Search & Navigation)
 | Key | Action |
 |-----|--------|
-| `<leader>sf` | Search files |
-| `<leader>sg` | Live grep search |
-| `<leader>sw` | Search current word |
-| `<leader>sd` | Search diagnostics |
-| `<leader>sh` | Search help |
-| `<leader>sk` | Search keymaps |
-| `<leader>ss` | Search Telescope commands |
-| `<leader>sr` | Resume last search |
-| `<leader>s.` | Search recent files |
-| `<leader>s/` | Search in open files |
-| `<leader>sn` | Search Neovim config files |
-| `<leader><leader>` | Browse buffers |
-| `<leader>/` | Fuzzy search in current buffer |
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep search |
+| `<leader>fb` | Browse buffers |
+| `<leader>fh` | Help tags |
+| `<leader>fn` | Neovim config files |
+
+### Code Formatting
+| Key | Action |
+|-----|--------|
+| `<leader>cf` | Format file or selection |
 
 ### LSP Commands (When LSP is attached)
 | Key | Action |
@@ -83,14 +80,16 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 | `gD` | Go to declaration |
 | `gd` | Go to definition (Telescope) |
 | `gi` | Go to implementation (Telescope) |
-| `gR` | Find references (Telescope) |
-| `gr` | Rename symbol |
+| `gr` | Find references (Telescope) |
+| `gR` | Rename symbol |
 | `gt` | Go to type definition (Telescope) |
 | `gO` | Document symbols |
 | `gW` | Workspace symbols |
-| `ga` | Code actions |
-| `<leader>th` | Toggle inlay hints |
-| `<leader>q` | Open diagnostic quickfix list |
+| `<leader>ca` | Code actions |
+| `<leader>d` | Show diagnostic float |
+| `[d` / `]d` | Previous/next diagnostic |
+| `<leader>lr` | Restart LSP server |
+| `K` | Hover documentation |
 
 ## 📁 Project Structure
 
@@ -106,12 +105,22 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 │   └── plugins/                          # Plugin configurations (auto-loaded)
 │       ├── colorscheme.lua               # Theme configuration
 │       ├── completion.lua                # blink.cmp autocompletion
-│       ├── formatting.lua                # Code formatting with conform.nvim
+│       ├── formatter.lua                 # Code formatting with conform.nvim
 │       ├── lsp.lua                       # LSP configuration
-│       ├── neotree.lua                   # File explorer
 │       ├── telescope.lua                 # Fuzzy finder
 │       ├── treesitter.lua                # Syntax highlighting
-│       └── ui.lua                        # UI enhancements
+│       ├── mason.lua                     # LSP server management
+│       ├── lualine.lua                   # Status line
+│       ├── gitsign.lua                   # Git integration
+│       ├── trouble.lua                   # Diagnostics list
+│       ├── neogit.lua                    # Git interface
+│       ├── supermaven.lua                # AI completion
+│       ├── obsidian.lua                  # Note-taking
+│       ├── dashboard.lua                 # Start screen
+│       ├── whichkey.lua                  # Key mapping help
+│       ├── todocomment.lua               # TODO highlighting
+│       ├── markdown.lua                  # Markdown support
+│       └── grug.lua                      # Search and replace
 ```
 
 ### Modular Architecture Benefits
@@ -123,41 +132,69 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 
 ## 🔧 Language Servers
 
-The following language server is configured by default:
+The following language servers are configured by default:
 
 | Language | Server | Features |
 |----------|--------|----------|
-| Lua | lua_ls | Neovim configuration development |
+| Lua | lua_ls | Neovim configuration development, completion, diagnostics |
 
-### Adding Language Servers
+### Language Server Configuration
 
-To add additional language servers, edit `lua/plugins/lsp.lua` and uncomment or add servers to the `servers` table:
+Language servers are pre-configured in `lua/plugins/lsp.lua`. The current setup includes:
 
 ```lua
 local servers = {
-  -- clangd = {},      -- C++ support
-  -- pyright = {},     -- Python support  
-  -- rust_analyzer = {}, -- Rust support
-  lua_ls = {
-    -- Already configured
-  },
+  lua_ls = {},
+  -- pyright = {},
+  -- rust_analyzer = {
+  --   settings = {
+  --     ["rust-analyzer"] = {
+  --       cargo = { allFeatures = true }
+  --     }
+  --   }
+  -- },
+  -- clangd = {}
 }
 ```
 
-Popular language servers include:
-- **Python**: `pyright` - Type checking, IntelliSense, imports
-- **C++**: `clangd` - Completion, diagnostics, refactoring  
-- **Rust**: `rust_analyzer` - Completion, diagnostics, refactoring, type hints
-- **JavaScript/TypeScript**: `ts_ls` - Full language support
-- **Go**: `gopls` - Go language server
+### Adding More Language Servers
 
-## 🎨 UI Features
+To add additional language servers, edit `lua/plugins/lsp.lua` and add servers to the `servers` table:
 
-- **Theme**: Default colorscheme
-- **Status Line**: Custom status line with git integration
-- **Buffer Line**: Tab-like buffer navigation
-- **Icons**: Nerd Font icons throughout the interface
-- **Notifications**: Clean, non-intrusive notifications
+```lua
+local servers = {
+  lua_ls = {},
+  -- Uncomment and configure additional servers as needed:
+  -- pyright = {},      -- Python
+  -- rust_analyzer = { --[[ config ]] }, -- Rust
+  -- clangd = {},       -- C++
+  -- ts_ls = {},        -- JavaScript/TypeScript
+  -- gopls = {},        -- Go
+  -- bashls = {},       -- Bash
+}
+```
+
+Install language servers using Mason: `:Mason`
+
+## ✨ Features
+
+### Core Features
+- **📦 Modular Architecture**: Easy to extend and customize
+- **🚀 Fast Startup**: Optimized plugin loading with lazy.nvim
+- **🎯 LSP Ready**: Multiple language servers pre-configured
+- **🔍 Powerful Search**: Telescope for fuzzy finding everything
+- **🎨 Beautiful UI**: Custom status line, icons, and themes
+- **🔧 Auto-formatting**: Format on save with conform.nvim
+- **📝 Smart Completion**: Advanced autocompletion with blink.cmp
+- **🌳 Syntax Highlighting**: Tree-sitter for accurate highlighting
+- **🔗 Git Integration**: Built-in git signs and Neogit interface
+- **🧠 AI Assistance**: Supermaven AI completion support
+- **📓 Note Taking**: Obsidian.nvim integration
+- **🚨 Diagnostics**: Trouble for organized error/warning lists
+
+### Language Support
+- **Lua**: Full development environment for Neovim configuration
+- Additional language servers can be easily enabled by uncommenting them in the configuration
 
 ## 📚 Plugin Management
 
@@ -165,31 +202,32 @@ This configuration uses [lazy.nvim](https://github.com/folke/lazy.nvim) for plug
 
 ### Common Commands
 - `:Lazy` - Open plugin manager UI
-- `:Lazy update` - Update all plugins
+- `:Lazy update` - Update all plugins  
 - `:Lazy clean` - Remove unused plugins
-- `:Mason` - Manage LSP servers
+- `:Lazy sync` - Sync all plugins
+- `:Mason` - Manage LSP servers, formatters, and linters
+- `:LspInfo` - Check LSP server status
+- `:ConformInfo` - Check formatter status
 
 ## 🛠️ Customization
-
-### Adding More Language Servers
-Edit `lua/plugins/lsp.lua` and add your language server to the `servers` table:
-
-```lua
-local servers = {
-  lua_ls = {
-    -- Already configured
-  },
-  pyright = {},      -- Add Python support
-  clangd = {},       -- Add C++ support
-  your_server = {},  -- Add your server here
-}
-```
 
 ### Custom Key Bindings
 Add your key bindings to `lua/config/keymaps.lua`:
 
 ```lua
-keymap.set("n", "<leader>xx", ":YourCommand<CR>", { desc = "Description" })
+vim.keymap.set("n", "<leader>xx", ":YourCommand<CR>", { desc = "Description" })
+```
+
+### Code Formatting
+Formatters are configured in `lua/plugins/formatter.lua`:
+
+```lua
+formatters_by_ft = {
+  lua = { "stylua" },
+  -- python = { "isort", "black" },
+  -- rust = { "rustfmt", lsp_format = "fallback" },
+  -- cpp = { "clang-format" }
+}
 ```
 
 ## 🚨 Troubleshooting
@@ -199,7 +237,7 @@ keymap.set("n", "<leader>xx", ":YourCommand<CR>", { desc = "Description" })
 - **LSP not starting**: Check `:LspInfo` for server status
 - **Key bindings not working**: Verify no conflicts with terminal/tmux
 
-### Language-Specific Issues (When Added)
+### Language-Specific Issues (When Enabled)
 - **Python (pyright)**: Check that Python is in your PATH
 - **Rust (rust-analyzer)**: Ensure Rust toolchain is installed via rustup
 - **C++ (clangd)**: Create a `compile_commands.json` file for proper completions
