@@ -5,7 +5,8 @@ return {
 	    lua = { "stylua" },
 	    python = { "isort", "black" },
 	    rust = { "rustfmt", lsp_format = "fallback" },
-	    cpp = { "clang-format" }
+	    cpp = { "clang-format" },
+	    kotlin = { "ktlint" }
 	},
 	format_on_save = {
 	    -- These options will be passed to conform.format()
