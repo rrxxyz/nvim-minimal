@@ -1,19 +1,19 @@
--- return {
---   "NeogitOrg/neogit",
---   dependencies = {
---     "nvim-lua/plenary.nvim", -- required
---     "sindrets/diffview.nvim", -- optional - Diff integration
---
---     -- Only one of these is needed.
---     "nvim-telescope/telescope.nvim", -- optional
---   },
---   opts = {},
---   keys = {
---     { "<leader>go", ":Neogit<CR>", desc = "Git Open status buffer in a new tab" },
---     { "<leader>gd", ":Neogit cwd=<cwd>", desc = "Git Use a different repository path" },
---     { "<leader>gf", ":Neogit cwd=%:p:h", desc = "Git Uses the repository of the current file" },
---     { "<leader>gp", ":Neogit kind=<kind>", desc = "Git Open specified popup directly" },
---     { "<leader>gc", ":Neogit commit", desc = "Git Open commit popup" },
---
---   },
--- }
+return {
+  -- "NeogitOrg/neogit",
+  -- dependencies = {
+  --   "nvim-lua/plenary.nvim", -- required
+  --   "sindrets/diffview.nvim", -- optional - Diff integration
+  --
+  --   -- Only one of these is needed.
+  --   "nvim-telescope/telescope.nvim", -- optional
+  -- },
+  -- opts = {},
+  -- keys = {
+  --   { "<leader>go", ":Neogit<CR>", desc = "Git Open status buffer in a new tab" },
+  --   { "<leader>gd", ":Neogit cwd=<cwd>", desc = "Git Use a different repository path" },
+  --   { "<leader>gf", ":Neogit cwd=%:p:h", desc = "Git Uses the repository of the current file" },
+  --   { "<leader>gp", ":Neogit kind=<kind>", desc = "Git Open specified popup directly" },
+  --   { "<leader>gc", ":Neogit commit", desc = "Git Open commit popup" },
+  --
+  -- },
+}
