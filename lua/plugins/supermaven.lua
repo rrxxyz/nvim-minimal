@@ -1,4 +1,4 @@
-return {
-  "supermaven-inc/supermaven-nvim",
-  opts = {},
-}
+-- return {
+--   "supermaven-inc/supermaven-nvim",
+--   opts = {},
+-- }

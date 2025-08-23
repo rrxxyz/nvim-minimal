@@ -1,23 +1,23 @@
-return {
-  "epwalsh/obsidian.nvim",
-  version = "*", -- recommended, use latest release instead of latest commit
-  lazy = true,
-  ft = "markdown",
-  event = {
-    "BufReadPre " .. vim.fn.expand "~" .. "/Obsidian/Obsidian Vault/Personal/*.md",
-  },
-  dependencies = {
-    -- Required.
-    "nvim-lua/plenary.nvim",
-  },
-  opts = {
-    ui = { enable = false },
-    workspaces = {
-      {
-        name = "personal",
-        path = vim.fn.expand "~" .. "/Obsidian/Obsidian Vault/Personal",
-      },
-    },
-    use_advanced_uri = false,
-  },
-}
+-- return {
+--   "epwalsh/obsidian.nvim",
+--   version = "*", -- recommended, use latest release instead of latest commit
+--   lazy = true,
+--   ft = "markdown",
+--   event = {
+--     "BufReadPre " .. vim.fn.expand "~" .. "/Obsidian/Obsidian Vault/Personal/*.md",
+--   },
+--   dependencies = {
+--     -- Required.
+--     "nvim-lua/plenary.nvim",
+--   },
+--   opts = {
+--     ui = { enable = false },
+--     workspaces = {
+--       {
+--         name = "personal",
+--         path = vim.fn.expand "~" .. "/Obsidian/Obsidian Vault/Personal",
+--       },
+--     },
+--     use_advanced_uri = false,
+--   },
+-- }
