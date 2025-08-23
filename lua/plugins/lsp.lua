@@ -6,15 +6,15 @@ return {
   opts = {
     servers = {
       lua_ls = {},
-      pyright = {},
-      rust_analyzer = {
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = { allFeatures = true },
-          },
-        },
-      },
-      clangd = {},
+      -- pyright = {},
+      -- rust_analyzer = {
+      --   settings = {
+      --     ["rust-analyzer"] = {
+      --       cargo = { allFeatures = true },
+      --     },
+      --   },
+      -- },
+      -- clangd = {},
     },
   },
   config = function(_, opts)
@@ -26,12 +26,12 @@ return {
       local opts = { noremap = true, silent = true, buffer = bufnr }
 
       keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-      keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
-      keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
-      keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+      keymap.set("n", "gd", builtin.lsp_definitions, opts)
+      keymap.set("n", "gi", builtin.lsp_implementations, opts)
+      keymap.set("n", "gr", builtin.lsp_references, opts)
       keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
       keymap.set("n", "gR", vim.lsp.buf.rename, opts)
-      keymap.set("n", "gt", require("telescope.builtin").lsp_type_definitions, opts)
+      keymap.set("n", "gt", builtin.lsp_type_definitions, opts)
       keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
       keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
       keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
