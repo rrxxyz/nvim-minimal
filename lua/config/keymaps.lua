@@ -32,3 +32,46 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("n", "<C-a>", "ggVG", { desc = "V to All" })
 vim.keymap.set("n", "<C-y>", "ggVG<leader>y", { desc = "Yank all"} )
 
+vim.keymap.set("n", "rr", ":%s/", { desc = "Replace all" })
+
+-- Terminal
+local function toggle_terminal()
+  -- Check if terminal buffer exists
+  local term_buf = nil
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == 'terminal' then
+      term_buf = buf
+      break
+    end
+  end
+  
+  -- Check if terminal window is currently open
+  local term_win = nil
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].buftype == 'terminal' then
+      term_win = win
+      break
+    end
+  end
+  
+  if term_win then
+    -- Terminal is open, close it
+    vim.api.nvim_win_close(term_win, false)
+  else
+    -- Terminal is not open, open it
+    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+      -- Reuse existing terminal buffer
+      vim.cmd('split')
+      vim.api.nvim_win_set_buf(0, term_buf)
+    else
+      -- Create new terminal
+      vim.cmd('split | terminal')
+    end
+    -- Enter insert mode
+    vim.cmd('startinsert')
+  end
+end
+
+-- Set the keymap
+vim.keymap.set('n', '<leader>tt', toggle_terminal, { desc = 'Toggle horizontal terminal' })

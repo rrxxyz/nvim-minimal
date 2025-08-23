@@ -7,7 +7,7 @@ return {
     spec = {
       {
         mode = { "n", "v" },
-        { "<leader>t", group = "TODO Comment" },
+        { "<leader>t", group = "Terminal/TODO Comment" },
         { "<leader>f", group = "File/find" },
         { "<leader>g", group = "git" },
         { "<leader>h", group = "Git hunk" },

@@ -13,6 +13,7 @@ return {
           prefills = {
             filesFilter = ext and ext ~= "" and "*." .. ext or nil,
           },
+	  engine = "ripgrep"
         })
       end,
       mode = { "n", "v" },

@@ -15,6 +15,12 @@ return {
               CurSearch = { bg = colors.pink },
               IncSearch = { bg = colors.sky },
               CursorLineNr = { fg = colors.sky, style = { "bold" } },
+              -- Make line numbers more visible with lighter color
+              LineNr = { fg = colors.overlay2, style = { "bold" } },
+              -- Make visual selection more visible with lighter background
+              Visual = { bg = colors.overlay0, fg = colors.text },
+              -- Make visual line selection also lighter
+              VisualNOS = { bg = colors.surface2, fg = colors.text },
               DashboardFooter = { fg = colors.overlay0 },
               TreesitterContextBottom = { style = {} },
               WinSeparator = { fg = colors.overlay0, style = { "bold" } },

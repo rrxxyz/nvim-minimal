@@ -22,11 +22,22 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
    ```
 
 2. Clone this configuration:
-   ```bash
-    git clone https://github.com/rizkirakasiwi/nvim-minimal.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-   ```
+   - Linux/Mac
+      ```bash
+       git clone https://github.com/rizkirakasiwi/nvim-minimal.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+      ```
+   - Windows
+      Using `cmd.exe`
+      ```bash
+      git clone https://github.com/rizkirakasiwi/nvim-minimal.git "%localappdata%\nvim"
+      ```
+      Using `powershell.exe`
+     ```bash
+     git clone https://github.com/rizkirakasiwi/nvim-minimal.git "${env:LOCALAPPDATA}\nvim"
+     ```
+   
 
-3. Start Neovim - plugins will install automatically:
+4. Start Neovim - plugins will install automatically:
    ```bash
    nvim
    ```
@@ -59,6 +70,7 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 | Key | Action |
 |-----|--------|
 | `<Esc><Esc>` (in terminal) | Exit terminal mode |
+| `<leader>tt`  | Open/close terminal |
 
 ### Telescope (Search & Navigation)
 | Key | Action |
