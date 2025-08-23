@@ -59,6 +59,7 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 | Key | Action |
 |-----|--------|
 | `<Esc><Esc>` (in terminal) | Exit terminal mode |
+| `<leader>tt`  | Open/close terminal |
 
 ### Telescope (Search & Navigation)
 | Key | Action |
