@@ -6,15 +6,15 @@ return {
   opts = {
     servers = {
       lua_ls = {},
-      -- pyright = {},
-      -- rust_analyzer = {
-      --   settings = {
-      --     ["rust-analyzer"] = {
-      --       cargo = { allFeatures = true },
-      --     },
-      --   },
-      -- },
-      -- clangd = {},
+      pyright = {},
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = { allFeatures = true },
+          },
+        },
+      },
+      clangd = {},
     },
   },
   config = function(_, opts)
@@ -48,29 +48,29 @@ return {
     end
 
     -- Manual setup for kotlin-lsp
-    -- local configs = require("lspconfig.configs")
-    -- if not configs.kotlin_lsp then
-    --   configs.kotlin_lsp = {
-    --     default_config = {
-    --       cmd = { "kotlin-lsp", "--stdio" },
-    --       filetypes = { "kotlin" },
-    --       root_dir = lspconfig.util.root_pattern(
-    --         "settings.gradle",
-    --         "settings.gradle.kts",
-    --         "build.gradle",
-    --         "build.gradle.kts",
-    --         "gradlew",
-    --         ".git"
-    --       ),
-    --       single_file_support = true,
-    --     },
-    --   }
-    -- end
-    --
-    -- lspconfig.kotlin_lsp.setup({
-    --   capabilities = require("blink.cmp").get_lsp_capabilities(),
-    --   on_attach = on_attach,
-    -- })
+    local configs = require("lspconfig.configs")
+    if not configs.kotlin_lsp then
+      configs.kotlin_lsp = {
+        default_config = {
+          cmd = { "kotlin-lsp", "--stdio" },
+          filetypes = { "kotlin" },
+          root_dir = lspconfig.util.root_pattern(
+            "settings.gradle",
+            "settings.gradle.kts",
+            "build.gradle",
+            "build.gradle.kts",
+            "gradlew",
+            ".git"
+          ),
+          single_file_support = true,
+        },
+      }
+    end
+
+    lspconfig.kotlin_lsp.setup({
+      capabilities = require("blink.cmp").get_lsp_capabilities(),
+      on_attach = on_attach,
+    })
 
     vim.diagnostic.config({
       diagnostic = {

@@ -12,7 +12,7 @@ M.ui = {
 -- 🔧 DEVELOPMENT TOOLS  
 M.dev_tools = {
   gitsign = true,        -- Git integration & hunks (file: gitsign.lua)
-  neogit = false,         -- Advanced git interface
+  neogit = true,         -- Advanced git interface
   trouble = true,        -- Diagnostics panel
   todocomment = true,    -- TODO comment highlighting
 }
@@ -26,7 +26,7 @@ M.content = {
 -- 🚀 PRODUCTIVITY
 M.productivity = {
   grug = true,           -- Search & replace tool
-  supermaven = false,    -- AI code completion
+  supermaven = true,    -- AI code completion
 }
 
 -- Function to check if a custom plugin is enabled
