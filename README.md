@@ -1,6 +1,6 @@
 # nvim-minimal: Modular Neovim Configuration
 
-A highly modular Neovim configuration forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
+A highly modular Neovim configuration built from scratch with a focus on simplicity and extensibility.
 
 This configuration features a **two-tier plugin system** that separates essential from optional functionality:
 - **🔧 Default Plugins**: Essential tools (LSP, completion, telescope) always loaded
@@ -313,7 +313,7 @@ formatters_by_ft = {
 
 ## 🎉 Credits
 
-This configuration is built upon the excellent foundation of [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) by TJ DeVries and contributors. The modular restructuring makes it easier to maintain and customize while preserving all the great features and educational comments from the original.
+This configuration was originally inspired by [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) but has since evolved into a completely independent setup with its own architecture and design principles.
 
 ## 🤝 Contributing
 
