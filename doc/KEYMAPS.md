@@ -139,12 +139,11 @@
 
 ## Potential Conflicts & Notes
 
-### ❌ CONFLICTS FOUND:
+### ✅ VERIFIED STATUS:
 
-1. **`<leader>hu` - Conflicting definitions:**
+1. **`<leader>hu` - Previously reported conflict:**
    - GitSigns: "Undo stage hunk" 
-   - BUT in gitsign.lua:57, it's mapped to `gitsigns.stage_hunk` (should be undo_stage_hunk)
-   - **FIX NEEDED**: Line 57 in gitsign.lua should use `gitsigns.undo_stage_hunk`
+   - **STATUS**: ✅ RESOLVED - Correctly mapped to `gitsigns.undo_stage_hunk` on line 58 in gitsign.lua
 
 2. **`K` key usage:**
    - Core keymaps (Visual mode): Move selected line up
