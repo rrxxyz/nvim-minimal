@@ -1,12 +1,13 @@
-# nvim-minimal: Minimal Neovim Configuration
+# nvim-minimal: Modular Neovim Configuration
 
-A minimal and modular Neovim configuration forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
+A highly modular Neovim configuration forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
 
-This configuration takes the solid foundation of kickstart.nvim and restructures it into a more modular architecture:
-- **Modular Design**: Core configuration separated from plugins for easier customization
-- **Easy to Extend**: Add new plugins by simply creating files in `lua/plugins/`
-- **Well-Organized**: Clear separation between options, keymaps, autocommands, and plugin configs
-- **Beginner-Friendly**: Heavily commented with clear explanations
+This configuration features a **two-tier plugin system** that separates essential from optional functionality:
+- **🔧 Default Plugins**: Essential tools (LSP, completion, telescope) always loaded
+- **🎨 Custom Plugins**: Optional features you can easily enable/disable
+- **⚡ Smart Loading**: Only load what you need for faster startup
+- **🎛️ Easy Management**: Toggle plugins with simple commands
+- **📚 Well-Documented**: Clear structure with comprehensive guides
 
 ## 🛠️ Installation
 
@@ -108,39 +109,49 @@ This configuration takes the solid foundation of kickstart.nvim and restructures
 ```
 ~/.config/nvim/
 ├── init.lua                              # Entry point - loads core config
+├── doc/                                  # 📚 Documentation
+│   ├── PLUGIN_STRUCTURE.md               # 📖 Complete plugin management guide
+│   └── KEYMAPS.md                        # 🗝️ All keymaps reference
 ├── lua/
 │   ├── config/                           # Core Neovim configuration
-│   │   ├── autocmds.lua                  # Autocommands
+│   │   ├── autocmds.lua                  # Autocommands & plugin commands
 │   │   ├── keymaps.lua                   # Global key mappings
 │   │   ├── lazy.lua                      # Bootstrap lazy.nvim
 │   │   └── options.lua                   # Neovim settings & options
-│   └── plugins/                          # Plugin configurations (auto-loaded)
-│       ├── colorscheme.lua               # Theme configuration
-│       ├── completion.lua                # blink.cmp autocompletion
-│       ├── formatter.lua                 # Code formatting with conform.nvim
-│       ├── lsp.lua                       # LSP configuration
-│       ├── telescope.lua                 # Fuzzy finder
-│       ├── treesitter.lua                # Syntax highlighting
-│       ├── mason.lua                     # LSP server management
-│       ├── lualine.lua                   # Status line
-│       ├── gitsign.lua                   # Git integration
-│       ├── trouble.lua                   # Diagnostics list
-│       ├── neogit.lua                    # Git interface
-│       ├── supermaven.lua                # AI completion
-│       ├── obsidian.lua                  # Note-taking
-│       ├── dashboard.lua                 # Start screen
-│       ├── whichkey.lua                  # Key mapping help
-│       ├── todocomment.lua               # TODO highlighting
-│       ├── markdown.lua                  # Markdown support
-│       └── grug.lua                      # Search and replace
+│   ├── commands/                         # Custom commands
+│   │   └── plugin_manager.lua            # Plugin management utilities
+│   └── plugins/                          # 🔧 Two-tier plugin system
+│       ├── custom_config.lua             # 🎛️ Enable/disable custom plugins
+│       ├── init.lua                      # Plugin loader system
+│       ├── default/                      # 📌 Essential plugins (always loaded)
+│       │   ├── lsp.lua                   # Language Server Protocol
+│       │   ├── completion.lua            # Code completion (blink.cmp)
+│       │   ├── treesitter.lua            # Syntax highlighting
+│       │   ├── telescope.lua             # Fuzzy finder
+│       │   ├── mason.lua                 # LSP/tool installer
+│       │   ├── whichkey.lua              # Keymap helper
+│       │   ├── colorscheme.lua           # Theme configuration
+│       │   └── formatter.lua             # Code formatting
+│       └── custom/                       # 🎨 Optional plugins (configurable)
+│           ├── lualine.lua               # Status line
+│           ├── gitsign.lua               # Git integration
+│           ├── trouble.lua               # Diagnostics panel
+│           ├── neogit.lua                # Advanced git interface
+│           ├── dashboard.lua             # Start screen
+│           ├── todocomment.lua           # TODO highlighting
+│           ├── markdown.lua              # Markdown tools
+│           ├── grug.lua                  # Search & replace
+│           ├── obsidian.lua              # Note-taking integration
+│           └── supermaven.lua            # AI completion
 ```
 
-### Modular Architecture Benefits
+### 🚀 Two-Tier Plugin Architecture
 
-- **Easy Plugin Addition**: Drop new `.lua` files into `lua/plugins/` and they're automatically loaded
-- **Clean Separation**: Core settings separate from plugin configurations
-- **Maintainable**: Each plugin has its own configuration file
-- **Extensible**: Built on kickstart.nvim's solid foundation with improved organization
+- **📌 Default Plugins**: Core functionality (LSP, completion, telescope) always available
+- **🎨 Custom Plugins**: Optional features you can toggle on/off
+- **🎛️ Easy Management**: Use `:PluginStatus`, `:PluginConfig`, and simple true/false switches
+- **⚡ Performance**: Only load what you need for faster startup
+- **📚 Self-Documenting**: Built-in commands and comprehensive documentation
 
 ## 🔧 Language Servers
 
@@ -210,9 +221,17 @@ Install language servers using Mason: `:Mason`
 
 ## 📚 Plugin Management
 
-This configuration uses [lazy.nvim](https://github.com/folke/lazy.nvim) for plugin management.
+This configuration features a **two-tier plugin system** with easy enable/disable functionality.
 
-### Common Commands
+### 🎛️ Custom Plugin Management Commands
+- `:PluginStatus` - View all plugins and their current status
+- `:PluginConfig` - Edit plugin configuration file  
+- `:PluginToggle <category> <plugin>` - Toggle specific plugins
+
+### 📖 Complete Plugin Guide
+For detailed instructions on managing plugins, adding new ones, and understanding the architecture, see **[doc/PLUGIN_STRUCTURE.md](doc/PLUGIN_STRUCTURE.md)**.
+
+### 🔧 System Commands  
 - `:Lazy` - Open plugin manager UI
 - `:Lazy update` - Update all plugins  
 - `:Lazy clean` - Remove unused plugins
@@ -221,7 +240,38 @@ This configuration uses [lazy.nvim](https://github.com/folke/lazy.nvim) for plug
 - `:LspInfo` - Check LSP server status
 - `:ConformInfo` - Check formatter status
 
+### Quick Start: Enable/Disable Features
+1. Run `:PluginConfig` to open the configuration file
+2. Change `true` to `false` (or vice versa) for any custom plugin
+3. Restart Neovim or run `:Lazy reload`
+4. Changes take effect immediately
+
+Example:
+```lua
+-- 🎨 UI & APPEARANCE
+M.ui = {
+  lualine = true,        -- ✅ Status line enabled
+  dashboard = false,     -- ❌ Start screen disabled
+}
+```
+
 ## 🛠️ Customization
+
+### 📖 Comprehensive Guides
+- **[doc/PLUGIN_STRUCTURE.md](doc/PLUGIN_STRUCTURE.md)** - Complete plugin management guide
+- **[doc/KEYMAPS.md](doc/KEYMAPS.md)** - All keymaps organized by plugin
+
+### Adding Your Own Custom Plugins
+1. **Create plugin file** in `lua/plugins/custom/your-plugin.lua`
+2. **Add to configuration** in `lua/plugins/custom_config.lua`:
+   ```lua
+   M.your_category = {
+     your_plugin = true,  -- Enable your new plugin
+   }
+   ```
+3. **Restart Neovim** and your plugin loads automatically
+
+See [doc/PLUGIN_STRUCTURE.md](doc/PLUGIN_STRUCTURE.md) for detailed instructions and examples.
 
 ### Custom Key Bindings
 Add your key bindings to `lua/config/keymaps.lua`:
@@ -231,7 +281,7 @@ vim.keymap.set("n", "<leader>xx", ":YourCommand<CR>", { desc = "Description" })
 ```
 
 ### Code Formatting
-Formatters are configured in `lua/plugins/formatter.lua`:
+Formatters are configured in `lua/plugins/default/formatter.lua`:
 
 ```lua
 formatters_by_ft = {

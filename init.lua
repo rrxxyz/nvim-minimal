@@ -4,10 +4,11 @@ require 'config.keymaps' -- Key mappings
 require 'config.autocmds' -- Autocommands
 require 'config.lazy' -- Bootstrap lazy.nvim
 
-require('lazy').setup({
-  -- Import all plugin configurations from lua/plugins/
-  { import = 'plugins' },
-}, {
+-- Load plugins using our custom loader
+local plugin_loader = require('plugins')
+local all_plugins = plugin_loader.get_all_plugins()
+
+require('lazy').setup(all_plugins, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
