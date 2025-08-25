@@ -137,30 +137,7 @@
 - `]` - Next
 - `g` - Goto
 
-## Potential Conflicts & Notes
+## Notes
 
-### ✅ VERIFIED STATUS:
-
-1. **`<leader>hu` - Previously reported conflict:**
-   - GitSigns: "Undo stage hunk" 
-   - **STATUS**: ✅ RESOLVED - Correctly mapped to `gitsigns.undo_stage_hunk` on line 58 in gitsign.lua
-
-2. **`K` key usage:**
-   - Core keymaps (Visual mode): Move selected line up
-   - LSP (Normal mode): Show hover information
-   - **STATUS**: No conflict - different modes
-
-3. **Disabled keymaps:**
-   - `]q`, `[q` commented out in keymaps.lua (line 12-13) in favor of Trouble
-
-### ⚠️  POTENTIAL ISSUES:
-
-1. **Markdown plugin keymaps** (`<C-s>`, `<M-s>`, `<C-p>`) are set globally but should only work in markdown files
-2. **`<C-k>` window navigation** may conflict with completion popup navigation in some contexts
-
-### 🎯 RECOMMENDATIONS:
-
-1. Fix the GitSigns undo stage hunk mapping
-2. Consider making markdown keymaps filetype-specific
-3. Add more descriptive comments for complex keymaps
-4. Consider grouping related keymaps closer together
+### Disabled keymaps:
+- `]q`, `[q` commented out in keymaps.lua (line 12-13) in favor of Trouble plugin
