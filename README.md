@@ -1,36 +1,57 @@
-# Neovim Configuration for C/C++
+# Neovim Configuration
 
-A modern, minimal Neovim configuration focused on C/C++ and Lua development with IDE-like features.
+A modern, minimal Neovim starter configuration that you can easily customize and extend for your needs.
 
-## Features
+## Philosophy
 
-- **Language Support**: Full LSP support for C/C++ (clangd) and Lua (lua_ls)
-- **Modern Completion**: blink.cmp with snippets and auto-completion
-- **Syntax Highlighting**: Tree-sitter for accurate syntax highlighting
-- **File Management**: nvim-tree file explorer and Telescope fuzzy finder
-- **Git Integration**: Gitsigns for git status, blame, and hunks
-- **Debugging**: nvim-dap with lldb support for C/C++ debugging
-- **Beautiful UI**: Tokyo Night theme with lualine and bufferline
+This configuration follows the **kickstart.nvim** philosophy - providing a solid foundation that you can build upon rather than a complex, pre-configured setup. The main branch offers essential functionality with sensible defaults, allowing you to add your own customizations without fighting existing configurations.
+
+## Branch Architecture
+
+This repository uses a branch-based approach for different use cases:
+
+- **`main`** - Basic starter configuration (this branch) - **Start here!**
+- **`ccpp-nvim`** - Example extension with C/C++ development support
+- **Additional branches** - Language-specific examples you can reference or use
+
+### Current Branch: Main (Basic Configuration)
+
+This branch provides a minimal but functional Neovim setup with:
+- Essential plugins for modern editing
+- Sensible defaults that work out of the box
+- Clean, readable code you can easily understand and modify
+- A foundation you can build upon for your specific needs
+
+## What's Included
+
+### Core Features
+- **Plugin Management**: lazy.nvim for fast, lazy-loaded plugins
+- **LSP Support**: Basic LSP setup with lua_ls (easily extensible)
+- **Completion**: blink.cmp for modern completion experience
+- **Syntax Highlighting**: Tree-sitter for accurate highlighting
+- **File Navigation**: Telescope for fuzzy finding
+- **Git Integration**: Basic git signs and navigation
+- **Modern UI**: Clean theme with statusline
+
+### What Makes This Different
+- **Minimal by design** - Only essential plugins included
+- **Well-documented** - Every configuration choice is clear and commented
+- **Easily extensible** - Add language support, themes, or plugins without conflicts
+- **Educational** - Learn how each piece works together
 
 ## Requirements
 
 - Neovim >= 0.10.0
 - Git
 - A C compiler (for telescope-fzf-native)
-- Node.js (for some LSP servers)
 
-### Required Tools
+### Basic Tools (Auto-installed)
 
-The configuration will automatically install these via Mason:
-- `clangd` - C/C++ language server
-- `lua-language-server` - Lua language server  
-- `clang-format` - C/C++ formatter
-- `stylua` - Lua formatter
+Mason will automatically install:
+- `lua-language-server` - For Neovim configuration editing
+- `stylua` - Lua code formatting
 
-### Optional Dependencies
-
-For full debugging support:
-- `lldb` or `gdb` - Debugger for C/C++
+*Note: This is intentionally minimal. Add more tools as you need them for your specific languages and workflows.*
 
 ## Installation
 
@@ -44,18 +65,19 @@ For full debugging support:
    git clone <your-repo-url> ~/.config/nvim
    ```
 
-3. **Start Neovim**:
+3. **Switch to desired branch** (optional):
+   ```bash
+   cd ~/.config/nvim
+   git checkout ccpp-nvim  # For C/C++ + Lua support
+   # Or stay on main for Lua-only optimization
+   ```
+
+4. **Start Neovim**:
    ```bash
    nvim
    ```
 
-4. **Let lazy.nvim install plugins** (this happens automatically on first run)
-
-5. **Install LSP servers**:
-   ```
-   :Mason
-   ```
-   Or they'll be installed automatically when you open relevant files.
+5. **Let lazy.nvim install plugins** (this happens automatically on first run)
 
 ## File Structure
 
@@ -73,6 +95,7 @@ For full debugging support:
 │       ├── editor.lua         # Core editing plugins
 │       ├── ui.lua             # UI enhancements
 │       └── debug.lua          # Debugging support
+├── CLAUDE.md                   # Claude Code instructions
 └── README.md                   # This file
 ```
 
@@ -133,16 +156,6 @@ For full debugging support:
 | `<Space>ghp` | Preview hunk |
 | `<Space>ghb` | Blame line |
 
-### Debugging
-| Key | Action |
-|-----|--------|
-| `<Space>db` | Toggle breakpoint |
-| `<Space>dc` | Continue |
-| `<Space>di` | Step into |
-| `<Space>do` | Step out |
-| `<Space>dO` | Step over |
-| `<Space>du` | Toggle DAP UI |
-
 ### Buffer Management
 | Key | Action |
 |-----|--------|
@@ -150,82 +163,157 @@ For full debugging support:
 | `<Space>bb` | Switch to other buffer |
 | `<Space>bp` | Toggle pin buffer |
 
-## Customization
+## Getting Started
 
-### Adding Languages
+### For Beginners
+1. Use this configuration as-is to get familiar with modern Neovim
+2. Read through the configuration files to understand how everything works
+3. Gradually add customizations based on your needs
 
-To add support for additional languages:
+### For Customization
+- **Add languages**: Check the `ccpp-nvim` branch for examples
+- **Change theme**: Modify `lua/plugins/ui.lua`
+- **Add plugins**: Create new files in `lua/plugins/`
+- **Modify keybinds**: Edit `lua/config/keymaps.lua`
 
-1. Add the language server to `lua/plugins/lsp.lua`:
+## Example Branches
+
+### ccpp-nvim Branch
+Shows how to extend this base configuration with:
+- C/C++ language server (clangd)
+- Additional formatters and tools
+- Debugging support
+- More treesitter parsers
+
+### Your Own Branch
+Consider creating your own branch for your specific setup:
+```bash
+git checkout -b my-config
+# Add your customizations
+git add -A && git commit -m "My personal config"
+```
+
+## Switching Between Configurations
+
+```bash
+# Switch to C/C++ + Lua configuration
+git checkout ccpp-nvim
+
+# Switch back to Lua-only configuration
+git checkout main
+
+# After switching, restart Neovim to reload configuration
+```
+
+## Customization Guide
+
+### Philosophy: Start Small, Add What You Need
+
+This configuration is intentionally minimal. Instead of removing features you don't want, you add only what you need.
+
+### Common Customizations
+
+#### Adding a New Language (e.g., Python)
+
+1. **Add LSP server** in `lua/plugins/lsp.lua`:
    ```lua
-   ensure_installed = { "lua_ls", "clangd", "your_language_server" }
+   ensure_installed = {
+     "stylua",
+     "lua-language-server",
+     "pyright", -- Add this
+   }
    ```
 
-2. Add Treesitter support in `lua/plugins/editor.lua`:
+2. **Add server configuration**:
    ```lua
-   ensure_installed = { "c", "cpp", "lua", "your_language" }
+   servers = {
+     lua_ls = { ... },
+     pyright = {}, -- Add this
+   }
    ```
 
-### Changing Theme
+3. **Add treesitter** in `lua/plugins/editor.lua`:
+   ```lua
+   ensure_installed = {
+     "lua",
+     "python", -- Add this
+   }
+   ```
 
-Edit `lua/plugins/ui.lua` and replace the colorscheme:
+4. **Add formatter** (optional):
+   ```lua
+   formatters_by_ft = {
+     lua = { "stylua" },
+     python = { "black" }, -- Add this
+   }
+   ```
+
+#### Adding More Plugins
+
+Create a new file like `lua/plugins/my-additions.lua`:
 ```lua
-{
-  "your-preferred/theme.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    vim.cmd.colorscheme("your-theme")
-  end,
+return {
+  -- Your additional plugins here
+  {
+    "your-plugin/name",
+    config = function()
+      -- Plugin configuration
+    end,
+  },
 }
 ```
 
-### Modifying Keybindings
+### Learning Resources
 
-Edit `lua/config/keymaps.lua` to customize key mappings.
+- Read the `ccpp-nvim` branch to see a real extension example
+- Check each plugin's documentation for more configuration options
+- The lazy.nvim documentation explains the plugin specification format
 
 ## Troubleshooting
 
 ### LSP Not Working
-
 1. Check LSP status: `:LspInfo`
 2. Check Mason installations: `:Mason`
 3. Check logs: `:LspLog`
 
 ### Performance Issues
-
 1. Check startup time: `nvim --startuptime startup.log`
 2. Profile plugins: `:Lazy profile`
 
 ### Completion Not Working
-
-1. Check blink.cmp status: `:lua print(vim.inspect(require('blink.cmp').get_lsp_capabilities()))`
+1. Check blink.cmp capabilities: `:lua print(vim.inspect(require('blink.cmp').get_lsp_capabilities()))`
 2. Restart LSP: `:LspRestart`
 
-## C/C++ Project Setup
-
-### For C/C++ projects, create a `.clangd` file in your project root:
-
-```yaml
-CompileFlags:
-  Add: [-I/path/to/your/includes]
-  Remove: [-W*]
-```
-
-### Or use `compile_commands.json`:
-
-```bash
-# For CMake projects
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
-
-# For Make projects  
-bear -- make
-```
+### Branch-Specific Issues
+- Ensure you're on the correct branch: `git branch`
+- After switching branches, restart Neovim completely
+- Check branch-specific tool requirements
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests!
+This project welcomes contributions! Here's how you can help:
+
+### For the Main Branch
+- **Keep it minimal** - Only suggest additions that benefit most users
+- **Improve documentation** - Help make the code more educational
+- **Fix bugs** - Ensure the basic setup works reliably
+
+### For Example Branches
+- **Add new language examples** - Show how to extend for different languages
+- **Improve existing examples** - Better configurations for specific use cases
+
+### Guidelines
+- Focus on educational value - help others learn
+- Keep configurations well-commented
+- Test changes thoroughly before submitting
+
+## Inspiration
+
+This configuration is inspired by:
+- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - The educational approach
+- [LazyVim](https://github.com/LazyVim/LazyVim) - Modern plugin architecture
+- Community feedback and real-world usage patterns
 
 ## License
 
-This configuration is available under the MIT license.
+This configuration is available under the MIT license. Feel free to use, modify, and share!
