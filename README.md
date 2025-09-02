@@ -62,7 +62,7 @@ Mason will automatically install:
 
 2. **Clone this configuration**:
    ```bash
-   git clone <your-repo-url> ~/.config/nvim
+   git clone https://github.com/rizkirakasiwi/nvim-minimal.git ~/.config/nvim
    ```
 
 3. **Switch to desired branch** (optional):
