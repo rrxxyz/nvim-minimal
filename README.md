@@ -61,23 +61,33 @@ Mason will automatically install:
    ```
 
 2. **Clone this configuration**:
+   Linux:
    ```bash
    git clone https://github.com/rizkirakasiwi/nvim-minimal.git ~/.config/nvim
    ```
+   Windows:
+   - powershell
+     ```bash
+     git clone https://github.com/rizkirakasiwi/nvim-minimal.git "${env:LOCALAPPDATA}\nvim"
+     ```
+   - cmd
+     ```bash
+     git clone https://github.com/rizkirakasiwi/nvim-minimal.git "%localappdata%\nvim"
+     ```
 
-3. **Switch to desired branch** (optional):
+4. **Switch to desired branch** (optional):
    ```bash
    cd ~/.config/nvim
    git checkout ccpp-nvim  # For C/C++ + Lua support
    # Or stay on main for Lua-only optimization
    ```
 
-4. **Start Neovim**:
+5. **Start Neovim**:
    ```bash
    nvim
    ```
 
-5. **Let lazy.nvim install plugins** (this happens automatically on first run)
+6. **Let lazy.nvim install plugins** (this happens automatically on first run)
 
 ## File Structure
 
