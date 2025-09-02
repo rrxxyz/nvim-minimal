@@ -23,12 +23,9 @@ return {
       highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
-        "c",
-        "cpp",
-        "cmake",
         "lua",
         "luadoc",
-        "printf",
+        "luap",
         "vim",
         "vimdoc",
         "markdown",
@@ -153,21 +150,11 @@ return {
     },
     opts = {
       formatters_by_ft = {
-        c = { "clang_format" },
-        cpp = { "clang_format" },
         lua = { "stylua" },
-        cmake = { "cmakelint" },
       },
       format_on_save = {
         timeout_ms = 500,
         lsp_format = "fallback",
-      },
-      formatters = {
-        clang_format = {
-          prepend_args = {
-            "--style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 100, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
-          },
-        },
       },
     },
     init = function(plugin)

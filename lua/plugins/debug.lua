@@ -2,11 +2,6 @@ return {
   -- Debug adapter protocol
   {
     "mfussenegger/nvim-dap",
-    dependencies = {
-      "mason-org/mason.nvim",
-      optional = true,
-      opts = { ensure_installed = { "codelldb" } },
-    },
      -- stylua: ignore
     keys = {
     { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
@@ -28,41 +23,7 @@ return {
     { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
     },
     config = function()
-      local dap = require("dap")
-      if not dap.adapters["codelldb"] then
-        require("dap").adapters["codelldb"] = {
-          type = "server",
-          host = "localhost",
-          port = "${port}",
-          executable = {
-            command = "codelldb",
-            args = {
-              "--port",
-              "${port}",
-            },
-          },
-        }
-      end
-      for _, lang in ipairs({ "c", "cpp" }) do
-        dap.configurations[lang] = {
-          {
-            type = "codelldb",
-            request = "launch",
-            name = "Launch file",
-            program = function()
-              return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-            end,
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "codelldb",
-            request = "attach",
-            name = "Attach to process",
-            pid = require("dap.utils").pick_process,
-            cwd = "${workspaceFolder}",
-          },
-        }
-      end
+      -- Lua debug configuration would go here if needed
     end,
   },
 

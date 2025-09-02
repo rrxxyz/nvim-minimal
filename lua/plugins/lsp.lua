@@ -8,12 +8,7 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
-        "clangd",
-        "clang-format",
         "lua-language-server",
-        "codelldb",
-        "cmakelang",
-        "cmakelint",
       },
     },
     config = function(_, opts)
@@ -58,91 +53,72 @@ return {
     },
     opts = {
       servers = {
-        neocmake = {},
         lua_ls = {
           Lua = {
             completion = {
               keywordSnippet = "Both",
-              displayContext = 3,
+              displayContext = 5,
+              callSnippet = "Both",
+              workspaceWord = true,
+              showWord = "Disable",
             },
             diagnostics = {
               globals = { "vim" },
               neededFileStatus = "Opened",
+              groupSeverity = {
+                strong = "Warning",
+                strict = "Warning",
+              },
+              groupFileStatus = {
+                ["ambiguity"] = "Opened",
+                ["await"] = "Opened",
+                ["codestyle"] = "None",
+                ["duplicate"] = "Opened",
+                ["global"] = "Opened",
+                ["luadoc"] = "Opened",
+                ["redefined"] = "Opened",
+                ["strict"] = "Opened",
+                ["strong"] = "Opened",
+                ["type-check"] = "Opened",
+                ["unbalanced"] = "Opened",
+                ["unused"] = "Opened",
+              },
             },
             runtime = {
               version = "LuaJIT",
+              pathStrict = true,
             },
             workspace = {
               library = {
                 vim.env.VIMRUNTIME,
                 [vim.fn.expand("$VIMRUNTIME/lua")] = true,
                 [vim.fn.stdpath("config") .. "/lua"] = true,
+                [vim.fn.stdpath("data") .. "/lazy"] = true,
               },
               checkThirdParty = false,
+              maxPreload = 100000,
+              preloadFileSize = 10000,
             },
             telemetry = { enable = false },
             hint = {
               enable = true,
               setType = true,
+              paramType = true,
+              paramName = "Disable",
+              semicolon = "Disable",
+              arrayIndex = "Disable",
+            },
+            format = {
+              enable = false,
             },
           },
         },
-        clangd = {
-          keys = {
-            { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-          },
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern(
-              "Makefile",
-              "configure.ac",
-              "configure.in",
-              "config.h.in",
-              "meson.build",
-              "meson_options.txt",
-              "build.ninja"
-            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
-              fname
-            ) or vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
-          end,
-          capabilities = {
-            offsetEncoding = { "utf-16" },
-          },
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders",
-            "--fallback-style=llvm",
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        },
-      },
-      setup = {
-        clangd = function(_, opts)
-          require("clangd_extensions").setup({ server = opts })
-          return false
-        end,
       },
     },
     config = function(_, opts)
       local lspconfig = require("lspconfig")
 
       for server, config in pairs(opts.servers) do
-        if opts.setup[server] then
-          if opts.setup[server](server, config) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, config) then
-            return
-          end
-        end
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
         lspconfig[server].setup(config)
       end
@@ -170,35 +146,5 @@ return {
         },
       })
     end,
-  },
-  {
-    "p00f/clangd_extensions.nvim",
-    lazy = true,
-    config = function() end,
-    opts = {
-      inlay_hints = {
-        inline = false,
-      },
-      ast = {
-        --These require codicons (https://github.com/microsoft/vscode-codicons)
-        role_icons = {
-          type = "",
-          declaration = "",
-          expression = "",
-          specifier = "",
-          statement = "",
-          ["template argument"] = "",
-        },
-        kind_icons = {
-          Compound = "",
-          Recovery = "",
-          TranslationUnit = "",
-          PackExpansion = "",
-          TemplateTypeParm = "",
-          TemplateTemplateParm = "",
-          TemplateParamObject = "",
-        },
-      },
-    },
   },
 }
