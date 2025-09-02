@@ -1,57 +1,78 @@
 # Neovim Configuration
 
-A modern, minimal Neovim starter configuration that you can easily customize and extend for your needs.
+A modern, optimized Neovim configuration specifically tuned for Python development with Lua configuration management.
 
 ## Philosophy
 
-This configuration follows the **kickstart.nvim** philosophy - providing a solid foundation that you can build upon rather than a complex, pre-configured setup. The main branch offers essential functionality with sensible defaults, allowing you to add your own customizations without fighting existing configurations.
+This configuration provides a complete, production-ready Python development environment built on Neovim's modern plugin ecosystem. It combines the best tools for Python development with sensible defaults and an extensible architecture.
 
 ## Branch Architecture
 
 This repository uses a branch-based approach for different use cases:
 
-- **`main`** - Basic starter configuration (this branch) - **Start here!**
-- **`ccpp-nvim`** - Example extension with C/C++ development support
+- **`main`** - Basic Lua-only starter configuration
+- **`ccpp-nvim`** - C/C++ development support
+- **`python-nvim`** - **Current branch** - Python-optimized development environment
 - **Additional branches** - Language-specific examples you can reference or use
 
-### Current Branch: Main (Basic Configuration)
+### Current Branch: python-nvim (Python Development Configuration)
 
-This branch provides a minimal but functional Neovim setup with:
-- Essential plugins for modern editing
-- Sensible defaults that work out of the box
-- Clean, readable code you can easily understand and modify
-- A foundation you can build upon for your specific needs
+This branch provides a comprehensive Python development setup with:
+- Complete Python LSP integration with type checking
+- Advanced code formatting and linting with modern tools
+- Intelligent debugging with virtual environment support
+- Python-specific plugins and enhancements
+- Optimized editing experience for Python workflows
 
 ## What's Included
 
 ### Core Features
 - **Plugin Management**: lazy.nvim for fast, lazy-loaded plugins
-- **LSP Support**: Basic LSP setup with lua_ls (easily extensible)
-- **Completion**: blink.cmp for modern completion experience
-- **Syntax Highlighting**: Tree-sitter for accurate highlighting
+- **LSP Support**: Pyright for Python + lua_ls for Neovim config editing
+- **Completion**: blink.cmp with enhanced Python capabilities
+- **Syntax Highlighting**: Tree-sitter with Python, TOML, Dockerfile parsers
 - **File Navigation**: Telescope for fuzzy finding
-- **Git Integration**: Basic git signs and navigation
-- **Modern UI**: Clean theme with statusline
+- **Git Integration**: Advanced git signs and hunk navigation
+- **Modern UI**: Clean theme with statusline and bufferline
+
+### Python Development Features
+- **Language Server**: Pyright with intelligent type checking and analysis
+- **Code Formatting**: Black (88-char) + isort for imports
+- **Linting**: Ruff for fast, comprehensive Python linting
+- **Debugging**: Full DAP integration with debugpy and virtual environment support
+- **Virtual Environments**: Smart venv detection and switching with venv-selector
+- **Enhanced Navigation**: Python-specific text objects and motions
+- **Code Quality**: Auto-formatting on save, diagnostic integration
 
 ### What Makes This Different
-- **Minimal by design** - Only essential plugins included
-- **Well-documented** - Every configuration choice is clear and commented
-- **Easily extensible** - Add language support, themes, or plugins without conflicts
-- **Educational** - Learn how each piece works together
+- **Python-optimized** - Every tool specifically chosen for Python development
+- **Production-ready** - Complete toolchain for professional Python projects
+- **Modern tooling** - Uses latest Python development tools (Ruff, Black, Pyright)
+- **Virtual env aware** - Intelligent handling of Python virtual environments
+- **Well-integrated** - All tools work together seamlessly
 
 ## Requirements
 
 - Neovim >= 0.10.0
+- Python 3.8+ (for debugpy and language server)
 - Git
-- A C compiler (for telescope-fzf-native)
+- A C compiler (for telescope-fzf-native and some Python packages)
 
-### Basic Tools (Auto-installed)
+### Python Development Tools (Auto-installed)
 
 Mason will automatically install:
+- `pyright` - Python language server with type checking
+- `ruff` - Fast Python linter and formatter
+- `black` - Python code formatter
+- `isort` - Python import sorter  
+- `debugpy` - Python debugging adapter
 - `lua-language-server` - For Neovim configuration editing
 - `stylua` - Lua code formatting
 
-*Note: This is intentionally minimal. Add more tools as you need them for your specific languages and workflows.*
+### Optional Enhancements
+- **Virtual Environment**: pipenv, poetry, conda, or venv for project isolation
+- **Python Type Checker**: mypy (if using alongside Pyright)
+- **Git**: For version control integration features
 
 ## Installation
 
@@ -65,11 +86,10 @@ Mason will automatically install:
    git clone <your-repo-url> ~/.config/nvim
    ```
 
-3. **Switch to desired branch** (optional):
+3. **Switch to Python branch**:
    ```bash
    cd ~/.config/nvim
-   git checkout ccpp-nvim  # For C/C++ + Lua support
-   # Or stay on main for Lua-only optimization
+   git checkout python-nvim  # For Python development environment
    ```
 
 4. **Start Neovim**:
@@ -124,7 +144,7 @@ Mason will automatically install:
 | `<Space>fb` | Find buffers |
 | `<Space>fr` | Recent files |
 
-### LSP
+### LSP & Python Development
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
@@ -135,7 +155,8 @@ Mason will automatically install:
 | `K` | Hover documentation |
 | `<Space>ca` | Code actions |
 | `<Space>cr` | Rename |
-| `<Space>cf` | Format |
+| `<Space>cf` | Format with Black + isort |
+| `<Space>vs` | Select virtual environment |
 
 ### Diagnostics
 | Key | Action |
@@ -156,6 +177,19 @@ Mason will automatically install:
 | `<Space>ghp` | Preview hunk |
 | `<Space>ghb` | Blame line |
 
+### Debugging (Python DAP)
+| Key | Action |
+|-----|--------|
+| `<Space>db` | Toggle breakpoint |
+| `<Space>dB` | Conditional breakpoint |
+| `<Space>dc` | Continue/Start debugging |
+| `<Space>di` | Step into |
+| `<Space>do` | Step over |
+| `<Space>dO` | Step out |
+| `<Space>dr` | Toggle REPL |
+| `<Space>du` | Toggle DAP UI |
+| `<Space>dt` | Terminate session |
+
 ### Buffer Management
 | Key | Action |
 |-----|--------|
@@ -165,88 +199,123 @@ Mason will automatically install:
 
 ## Getting Started
 
-### For Beginners
-1. Use this configuration as-is to get familiar with modern Neovim
-2. Read through the configuration files to understand how everything works
-3. Gradually add customizations based on your needs
+### Quick Start for Python Development
+1. Open any `.py` file - Mason will automatically install Python tools
+2. Use `<Space>vs` to select your virtual environment
+3. Start coding with full IntelliSense, formatting, and linting
+4. Use `<Space>db` to set breakpoints and `<Space>dc` to start debugging
+5. Auto-formatting happens on save (Black + isort)
+
+### Setting Up a Python Project
+1. Create or activate your virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
+   ```
+2. Open Neovim in your project directory
+3. Use `<Space>vs` to select the `.venv` environment
+4. Install your project dependencies as usual
 
 ### For Customization
-- **Add languages**: Check the `ccpp-nvim` branch for examples
+- **Add more languages**: Check other branches for examples
+- **Change Python settings**: Modify `lua/plugins/lsp.lua`
+- **Adjust formatting**: Edit Black/isort config in `lua/plugins/editor.lua`
 - **Change theme**: Modify `lua/plugins/ui.lua`
 - **Add plugins**: Create new files in `lua/plugins/`
 - **Modify keybinds**: Edit `lua/config/keymaps.lua`
 
-## Example Branches
+## Available Branches
 
-### ccpp-nvim Branch
-Shows how to extend this base configuration with:
-- C/C++ language server (clangd)
-- Additional formatters and tools
-- Debugging support
-- More treesitter parsers
+### main Branch
+Basic Lua-only configuration - minimal starter setup for Neovim configuration development.
+
+### ccpp-nvim Branch  
+C/C++ development environment with clangd, debugging, and build tool integration.
+
+### python-nvim Branch (Current)
+Complete Python development environment with modern tooling and full debugging support.
 
 ### Your Own Branch
 Consider creating your own branch for your specific setup:
 ```bash
-git checkout -b my-config
+git checkout -b my-python-config
 # Add your customizations
-git add -A && git commit -m "My personal config"
+git add -A && git commit -m "My personal Python config"
 ```
 
 ## Switching Between Configurations
 
 ```bash
-# Switch to C/C++ + Lua configuration
+# Switch to basic Lua-only configuration
+git checkout main
+
+# Switch to C/C++ development configuration  
 git checkout ccpp-nvim
 
-# Switch back to Lua-only configuration
-git checkout main
+# Switch to Python development configuration
+git checkout python-nvim
 
 # After switching, restart Neovim to reload configuration
 ```
 
-## Customization Guide
+## Python Development Workflow
 
-### Philosophy: Start Small, Add What You Need
-
-This configuration is intentionally minimal. Instead of removing features you don't want, you add only what you need.
-
-### Common Customizations
-
-#### Adding a New Language (e.g., Python)
-
-1. **Add LSP server** in `lua/plugins/lsp.lua`:
-   ```lua
-   ensure_installed = {
-     "stylua",
-     "lua-language-server",
-     "pyright", -- Add this
-   }
+### Daily Usage
+1. **Start your session**:
+   ```bash
+   cd your-python-project
+   source .venv/bin/activate  # Activate your virtual environment
+   nvim .  # Open Neovim
    ```
 
-2. **Add server configuration**:
-   ```lua
-   servers = {
-     lua_ls = { ... },
-     pyright = {}, -- Add this
-   }
-   ```
+2. **Select virtual environment**: `<Space>vs` if not automatically detected
 
-3. **Add treesitter** in `lua/plugins/editor.lua`:
-   ```lua
-   ensure_installed = {
-     "lua",
-     "python", -- Add this
-   }
-   ```
+3. **Code with confidence**:
+   - Full IntelliSense with type hints
+   - Real-time linting with Ruff
+   - Auto-formatting on save with Black + isort
+   - Instant error detection and suggestions
 
-4. **Add formatter** (optional):
-   ```lua
-   formatters_by_ft = {
-     lua = { "stylua" },
-     python = { "black" }, -- Add this
-   }
-   ```
+4. **Debug efficiently**:
+   - Set breakpoints: `<Space>db`
+   - Start debugging: `<Space>dc`
+   - Use the visual DAP UI: `<Space>du`
+
+### Advanced Python Customization
+
+#### Adjusting Python Settings
+
+**Modify LSP behavior** in `lua/plugins/lsp.lua`:
+```lua
+pyright = {
+  python = {
+    analysis = {
+      typeCheckingMode = "strict", -- Change from "basic"
+      autoImportCompletions = true,
+    },
+  },
+},
+```
+
+**Customize formatting** in `lua/plugins/editor.lua`:
+```lua
+formatters_by_ft = {
+  python = { "ruff_format", "ruff_organize_imports" }, -- Use ruff instead
+  -- or: python = { "isort", "black" }, -- Current setup
+},
+```
+
+#### Adding Python Tools
+
+Add more Python-specific tools to Mason:
+```lua
+ensure_installed = {
+  -- ... existing tools ...
+  "mypy",      -- Additional type checking
+  "pytest",    -- Testing framework
+  "bandit",    -- Security linter
+},
+```
 
 #### Adding More Plugins
 
@@ -271,23 +340,49 @@ return {
 
 ## Troubleshooting
 
-### LSP Not Working
-1. Check LSP status: `:LspInfo`
-2. Check Mason installations: `:Mason`
-3. Check logs: `:LspLog`
+### Python LSP Issues
+1. **Pyright not working**:
+   - Check LSP status: `:LspInfo`
+   - Ensure Python is in PATH: `:!python --version`
+   - Check Mason installation: `:Mason`
+   - Restart LSP: `:LspRestart`
 
-### Performance Issues
-1. Check startup time: `nvim --startuptime startup.log`
-2. Profile plugins: `:Lazy profile`
+2. **Virtual environment not detected**:
+   - Use `:VenvSelect` or `<Space>vs` to manually select
+   - Ensure .venv or venv folder exists in project root
+   - Check Python path: `:lua print(vim.fn.exepath('python'))`
 
-### Completion Not Working
-1. Check blink.cmp capabilities: `:lua print(vim.inspect(require('blink.cmp').get_lsp_capabilities()))`
-2. Restart LSP: `:LspRestart`
+3. **Type hints not working**:
+   - Install typing stubs: `pip install types-requests` (for example)
+   - Check pyright settings in `:LspInfo`
+   - Verify Python path points to correct environment
 
-### Branch-Specific Issues
-- Ensure you're on the correct branch: `git branch`
-- After switching branches, restart Neovim completely
-- Check branch-specific tool requirements
+### Formatting/Linting Issues  
+1. **Black not formatting**:
+   - Check conform status: `:ConformInfo`
+   - Manually format: `<Space>cf`
+   - Check Mason installation: `:Mason`
+
+2. **Ruff not linting**:
+   - Check nvim-lint status: `:lua print(require('lint').get_running())`
+   - Manually trigger: `:lua require('lint').try_lint()`
+
+### Debugging Issues
+1. **DAP not starting**:
+   - Check debugpy installation: `:Mason`
+   - Verify Python path in debug configuration
+   - Check DAP status: `:lua print(require('dap').session())`
+
+2. **Breakpoints not working**:
+   - Ensure file is saved
+   - Check if debugpy is running in the environment
+   - Try restarting debug session: `<Space>dt` then `<Space>dc`
+
+### General Issues
+- Check health: `:checkhealth`
+- Update plugins: `:Lazy update`
+- Check Python version compatibility (3.8+ required)
+- Ensure you're on the python-nvim branch: `git branch`
 
 ## Contributing
 
@@ -307,12 +402,20 @@ This project welcomes contributions! Here's how you can help:
 - Keep configurations well-commented
 - Test changes thoroughly before submitting
 
-## Inspiration
+## Inspiration & Credits
 
-This configuration is inspired by:
-- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - The educational approach
-- [LazyVim](https://github.com/LazyVim/LazyVim) - Modern plugin architecture
-- Community feedback and real-world usage patterns
+This Python-optimized configuration builds upon:
+- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - Educational approach and solid foundations
+- [LazyVim](https://github.com/LazyVim/LazyVim) - Modern plugin architecture patterns
+- Python community best practices for development tooling
+- Real-world Python development workflows and pain points
+
+### Key Python Tools Used
+- **Pyright** - Microsoft's Python language server
+- **Ruff** - Astral's extremely fast Python linter
+- **Black** - The uncompromising Python code formatter  
+- **isort** - Python import sorting utility
+- **debugpy** - Python debugging adapter protocol implementation
 
 ## License
 
