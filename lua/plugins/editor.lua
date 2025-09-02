@@ -28,6 +28,7 @@ return {
         "luap",
         "vim",
         "vimdoc",
+        "python",
         "markdown",
         "markdown_inline",
         "query",
@@ -35,6 +36,9 @@ return {
         "bash",
         "json",
         "yaml",
+        "toml",
+        "dockerfile",
+        "requirements",
       },
       incremental_selection = {
         enable = true,
@@ -151,6 +155,7 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
+        python = { "isort", "black" },
       },
       format_on_save = {
         timeout_ms = 500,
@@ -159,6 +164,29 @@ return {
     },
     init = function(plugin)
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    end,
+  },
+
+  -- Linting with nvim-lint
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    opts = {
+      linters_by_ft = {
+        python = { "ruff" },
+      },
+    },
+    config = function(_, opts)
+      local lint = require("lint")
+      lint.linters_by_ft = opts.linters_by_ft
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
     end,
   },
 
@@ -246,5 +274,51 @@ return {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
     { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
   },
+  },
+  
+  -- Python-specific enhancements
+  {
+    "linux-cultist/venv-selector.nvim",
+    ft = "python",
+    dependencies = {
+      "neovim/nvim-lspconfig", 
+      "mfussenegger/nvim-dap", 
+      "mfussenegger/nvim-dap-python",
+      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } }
+    },
+    lazy = false,
+    branch = "regexp",
+    config = function()
+      require("venv-selector").setup({
+        settings = {
+          options = {
+            notify_user_on_venv_activation = true,
+          },
+        },
+      })
+    end,
+    keys = {
+      { "<leader>vs", "<cmd>VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" },
+    },
+  },
+
+  -- Python DAP extension
+  {
+    "mfussenegger/nvim-dap-python",
+    ft = "python",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
+    config = function()
+      local path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+      require("dap-python").setup(path)
+    end,
+  },
+
+  -- Enhanced Python text objects
+  {
+    "jeetsukumaran/vim-pythonsense",
+    ft = "python",
   },
 }

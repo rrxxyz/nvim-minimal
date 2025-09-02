@@ -9,6 +9,11 @@ return {
       ensure_installed = {
         "stylua",
         "lua-language-server",
+        "pyright",
+        "ruff",
+        "black",
+        "isort",
+        "debugpy",
       },
     },
     config = function(_, opts)
@@ -110,6 +115,16 @@ return {
             },
             format = {
               enable = false,
+            },
+          },
+        },
+        pyright = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly",
+              typeCheckingMode = "basic",
             },
           },
         },

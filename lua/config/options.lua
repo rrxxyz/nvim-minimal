@@ -47,5 +47,8 @@ opt.shortmess:append("c")
 opt.updatetime = 250
 opt.timeoutlen = 300
 
--- C/C++ specific
+-- Language specific
 vim.g.c_syntax_for_h = 1
+
+-- Python specific
+vim.g.python_recommended_style = 0
