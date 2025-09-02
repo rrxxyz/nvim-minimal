@@ -82,9 +82,19 @@ Mason will automatically install:
    ```
 
 2. **Clone this configuration**:
+   Linux:
    ```bash
-   git clone <your-repo-url> ~/.config/nvim
+   git clone https://github.com/rizkirakasiwi/nvim-minimal.git ~/.config/nvim
    ```
+   Windows:
+   - powershell
+     ```bash
+     git clone https://github.com/rizkirakasiwi/nvim-minimal.git "${env:LOCALAPPDATA}\nvim"
+     ```
+   - cmd
+     ```bash
+     git clone https://github.com/rizkirakasiwi/nvim-minimal.git "%localappdata%\nvim"
+     ```
 
 3. **Switch to Python branch**:
    ```bash
@@ -92,12 +102,12 @@ Mason will automatically install:
    git checkout python-nvim  # For Python development environment
    ```
 
-4. **Start Neovim**:
+5. **Start Neovim**:
    ```bash
    nvim
    ```
 
-5. **Let lazy.nvim install plugins** (this happens automatically on first run)
+6. **Let lazy.nvim install plugins** (this happens automatically on first run)
 
 ## File Structure
 
