@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        neovim_version: ['stable', 'nightly']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Neovim
+      uses: rhymond/setup-nvim@v1
+      with:
+        version: ${{ matrix.neovim_version }}
+
+    - name: Install Lua and LuaRocks
+      uses: leafo/gh-actions-lua@v10
+      with:
+        luaVersion: "5.1"
+
+    - name: Install LuaRocks
+      uses: leafo/gh-actions-luarocks@v4
+
+    - name: Install dependencies
+      run: |
+        # Install plenary for testing
+        git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+        
+        # Install luacheck for linting
+        luarocks install luacheck
+
+    - name: Install stylua
+      uses: JohnnyMorganz/stylua-action@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        version: latest
+
+    - name: Run linting
+      run: luacheck lua/ tests/ --globals vim
+
+    - name: Check formatting
+      run: stylua --check lua/ tests/
+
+    - name: Run tests
+      run: |
+        nvim --version
+        nvim --headless --noplugin -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/"
+
+  compatibility:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Test Neovim 0.7 compatibility
+      uses: rhymond/setup-nvim@v1
+      with:
+        version: 'v0.7.0'
+
+    - name: Install plenary
+      run: |
+        git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+
+    - name: Test basic functionality
+      run: |
+        nvim --version
+        nvim --headless --noplugin -u tests/minimal_init.lua -c "lua print('Testing basic load...'); require('neochange'); print('Success!')" -c "qall"
