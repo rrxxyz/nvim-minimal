@@ -78,3 +78,10 @@ keymap.set("n", "<leader>cs", function() Snacks.picker.lsp_symbols() end, { desc
 keymap.set("n", "<leader>cS", function() Snacks.picker.lsp_symbols({ workspace = true }) end, { desc = "Workspace Symbols" })
 
 -- Terminal keymaps are now handled by Snacks
+
+-- Rust-specific keymaps
+keymap.set("n", "<leader>rt", "<cmd>!cargo test<cr>", { desc = "Run Rust Tests" })
+keymap.set("n", "<leader>rc", "<cmd>!cargo check<cr>", { desc = "Run Cargo Check" })
+keymap.set("n", "<leader>rb", "<cmd>!cargo build<cr>", { desc = "Run Cargo Build" })
+keymap.set("n", "<leader>rr", "<cmd>!cargo run<cr>", { desc = "Run Cargo Run" })
+keymap.set("n", "<leader>rC", "<cmd>!cargo clippy<cr>", { desc = "Run Cargo Clippy" })

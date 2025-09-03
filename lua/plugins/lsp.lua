@@ -9,6 +9,9 @@ return {
       ensure_installed = {
         "stylua",
         "lua-language-server",
+        "rust-analyzer",
+        "codelldb",
+        "rustfmt",
       },
     },
     config = function(_, opts)
@@ -110,6 +113,30 @@ return {
             },
             format = {
               enable = false,
+            },
+          },
+        },
+        rust_analyzer = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              buildScripts = {
+                enable = true,
+              },
+            },
+            checkOnSave = {
+              allFeatures = true,
+              command = "clippy",
+              extraArgs = { "--no-deps" },
+            },
+            procMacro = {
+              enable = true,
+              ignored = {
+                ["async-trait"] = { "async_trait" },
+                ["napi-derive"] = { "napi" },
+                ["async-recursion"] = { "async_recursion" },
+              },
             },
           },
         },
