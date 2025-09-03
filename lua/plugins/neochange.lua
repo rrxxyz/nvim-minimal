@@ -1,7 +1,8 @@
 return {
-    'rizukirr/neochange-nvim',
+    "rizukirr/neochange-nvim",
     config = function()
-        require('neochange').setup()
+        require("neochange").setup()
     end,
     lazy = false,
 }
+
