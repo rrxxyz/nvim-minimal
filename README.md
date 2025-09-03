@@ -1,57 +1,70 @@
-# Neovim Configuration
+# Rust-Focused Neovim Configuration
 
-A modern, minimal Neovim starter configuration that you can easily customize and extend for your needs.
+A modern Neovim configuration specifically optimized for Rust development with Lua support for configuration management.
 
 ## Philosophy
 
-This configuration follows the **kickstart.nvim** philosophy - providing a solid foundation that you can build upon rather than a complex, pre-configured setup. The main branch offers essential functionality with sensible defaults, allowing you to add your own customizations without fighting existing configurations.
+This configuration is purpose-built for Rust developers who want a powerful, fast, and well-integrated development environment. It combines the best Rust tooling with essential Neovim functionality, providing everything you need for productive Rust development.
 
-## Branch Architecture
+## Current Branch: rust-nvim (Rust Development Configuration)
 
-This repository uses a branch-based approach for different use cases:
-
-- **`main`** - Basic starter configuration (this branch) - **Start here!**
-- **`ccpp-nvim`** - Example extension with C/C++ development support
-- **Additional branches** - Language-specific examples you can reference or use
-
-### Current Branch: Main (Basic Configuration)
-
-This branch provides a minimal but functional Neovim setup with:
-- Essential plugins for modern editing
-- Sensible defaults that work out of the box
-- Clean, readable code you can easily understand and modify
-- A foundation you can build upon for your specific needs
+This branch provides a comprehensive Rust development setup with:
+- Advanced Rust language server integration (rust-analyzer)
+- Intelligent code completion and diagnostics
+- Integrated debugging with CodeLLDB
+- Cargo integration for testing, building, and running
+- Smart dependency management for Cargo.toml
+- Optimized for Rust workflows while maintaining Lua support for Neovim configuration
 
 ## What's Included
 
-### Core Features
+### Rust Development Features
+- **rust-analyzer**: Advanced Rust language server with intelligent diagnostics
+- **rustaceanvim**: Comprehensive Rust tooling integration
+- **CodeLLDB Debugging**: Full debugging support for Rust applications
+- **Cargo Integration**: Built-in commands for test, build, run, check, and clippy
+- **Smart Completion**: Context-aware code completion with type information
+- **Crates.nvim**: Intelligent Cargo.toml dependency management
+- **Error Diagnostics**: Real-time error checking and suggestions
+- **Code Formatting**: Automatic rustfmt integration with format-on-save
+
+### Core Editor Features
 - **Plugin Management**: lazy.nvim for fast, lazy-loaded plugins
-- **LSP Support**: Basic LSP setup with lua_ls (easily extensible)
+- **LSP Support**: rust-analyzer and lua_ls with optimized configurations
 - **Completion**: blink.cmp for modern completion experience
-- **Syntax Highlighting**: Tree-sitter for accurate highlighting
-- **File Navigation**: Telescope for fuzzy finding
-- **Git Integration**: Basic git signs and navigation
-- **Modern UI**: Clean theme with statusline
+- **Syntax Highlighting**: Tree-sitter with Rust and TOML support
+- **File Navigation**: Advanced fuzzy finding and project navigation
+- **Git Integration**: Comprehensive git workflow support
+- **Modern UI**: Clean, distraction-free interface
 
 ### What Makes This Different
-- **Minimal by design** - Only essential plugins included
-- **Well-documented** - Every configuration choice is clear and commented
-- **Easily extensible** - Add language support, themes, or plugins without conflicts
-- **Educational** - Learn how each piece works together
+- **Rust-optimized** - Every tool configured specifically for Rust development
+- **Professional-grade** - Production-ready setup used by Rust professionals
+- **Performance-focused** - Fast startup and responsive editing
+- **Complete toolchain** - Everything needed for Rust development in one config
 
 ## Requirements
 
 - Neovim >= 0.10.0
+- Rust toolchain (rustc, cargo) - Install via [rustup](https://rustup.rs/)
 - Git
-- A C compiler (for telescope-fzf-native)
+- A C compiler (for building native dependencies)
 
-### Basic Tools (Auto-installed)
+### Rust Development Tools (Auto-installed)
 
 Mason will automatically install:
+- `rust-analyzer` - Rust language server for intelligent code analysis
+- `codelldb` - LLDB-based debugger for Rust applications
+- `rustfmt` - Rust code formatting tool
 - `lua-language-server` - For Neovim configuration editing
 - `stylua` - Lua code formatting
 
-*Note: This is intentionally minimal. Add more tools as you need them for your specific languages and workflows.*
+### External Dependencies
+
+These should be available in your system PATH:
+- `cargo` - Rust package manager (included with Rust installation)
+- `clippy` - Rust linter (install with `rustup component add clippy`)
+- `lldb` - System debugger (usually pre-installed on macOS/Linux)
 
 ## Installation
 
@@ -75,11 +88,13 @@ Mason will automatically install:
      git clone https://github.com/rizkirakasiwi/nvim-minimal.git "%localappdata%\nvim"
      ```
 
-4. **Switch to desired branch** (optional):
+4. **Ensure Rust is installed**:
    ```bash
-   cd ~/.config/nvim
-   git checkout ccpp-nvim  # For C/C++ + Lua support
-   # Or stay on main for Lua-only optimization
+   # Install Rust if you haven't already
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   
+   # Add clippy component
+   rustup component add clippy
    ```
 
 5. **Start Neovim**:
@@ -88,6 +103,11 @@ Mason will automatically install:
    ```
 
 6. **Let lazy.nvim install plugins** (this happens automatically on first run)
+
+7. **Verify installation**:
+   - Open a Rust file or create a new one: `nvim main.rs`
+   - Check LSP status: `:LspInfo`
+   - Check Mason installations: `:Mason`
 
 ## File Structure
 
@@ -134,7 +154,7 @@ Mason will automatically install:
 | `<Space>fb` | Find buffers |
 | `<Space>fr` | Recent files |
 
-### LSP
+### LSP & Rust Development
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
@@ -144,8 +164,30 @@ Mason will automatically install:
 | `gt` | Go to type definition |
 | `K` | Hover documentation |
 | `<Space>ca` | Code actions |
+| `<Space>cR` | Rust code actions |
 | `<Space>cr` | Rename |
 | `<Space>cf` | Format |
+
+### Rust-Specific Commands
+| Key | Action |
+|-----|--------|
+| `<Space>rt` | Run tests (`cargo test`) |
+| `<Space>rc` | Run check (`cargo check`) |
+| `<Space>rb` | Build project (`cargo build`) |
+| `<Space>rr` | Run project (`cargo run`) |
+| `<Space>rC` | Run clippy (`cargo clippy`) |
+
+### Debugging
+| Key | Action |
+|-----|--------|
+| `<Space>dr` | Run Rust debuggables |
+| `<Space>db` | Toggle breakpoint |
+| `<Space>dc` | Continue debugging |
+| `<Space>di` | Step into |
+| `<Space>do` | Step out |
+| `<Space>dO` | Step over |
+| `<Space>dt` | Terminate debug session |
+| `<Space>du` | Toggle debug UI |
 
 ### Diagnostics
 | Key | Action |
@@ -173,156 +215,188 @@ Mason will automatically install:
 | `<Space>bb` | Switch to other buffer |
 | `<Space>bp` | Toggle pin buffer |
 
-## Getting Started
+## Getting Started with Rust Development
 
-### For Beginners
-1. Use this configuration as-is to get familiar with modern Neovim
-2. Read through the configuration files to understand how everything works
-3. Gradually add customizations based on your needs
+### Quick Start
+1. **Create a new Rust project**:
+   ```bash
+   cargo new my_project
+   cd my_project
+   nvim src/main.rs
+   ```
 
-### For Customization
-- **Add languages**: Check the `ccpp-nvim` branch for examples
-- **Change theme**: Modify `lua/plugins/ui.lua`
-- **Add plugins**: Create new files in `lua/plugins/`
-- **Modify keybinds**: Edit `lua/config/keymaps.lua`
+2. **Test the setup**:
+   - Write some Rust code and observe syntax highlighting
+   - Use `<Space>rc` to run `cargo check`
+   - Use `<Space>rt` to run tests
+   - Try `gd` to go to a function definition
 
-## Example Branches
+3. **Explore features**:
+   - Open `Cargo.toml` and add a dependency - crates.nvim will provide completion
+   - Set a breakpoint with `<Space>db` and debug with `<Space>dr`
+   - Use `<Space>ca` for code actions like importing traits
 
-### ccpp-nvim Branch
-Shows how to extend this base configuration with:
-- C/C++ language server (clangd)
-- Additional formatters and tools
-- Debugging support
-- More treesitter parsers
+### Rust Development Workflow
 
-### Your Own Branch
-Consider creating your own branch for your specific setup:
-```bash
-git checkout -b my-config
-# Add your customizations
-git add -A && git commit -m "My personal config"
-```
+1. **Code**: Write Rust with intelligent completion and real-time diagnostics
+2. **Check**: Use `<Space>rc` for quick syntax and type checking
+3. **Test**: Run specific tests or all tests with `<Space>rt`
+4. **Debug**: Set breakpoints and debug interactively
+5. **Build**: Use `<Space>rb` for release builds
+6. **Lint**: Run `<Space>rC` for clippy suggestions
 
-## Switching Between Configurations
-
-```bash
-# Switch to C/C++ + Lua configuration
-git checkout ccpp-nvim
-
-# Switch back to Lua-only configuration
-git checkout main
-
-# After switching, restart Neovim to reload configuration
-```
+### Working with Cargo.toml
+- Open any `Cargo.toml` file
+- Start typing a crate name - you'll get intelligent completion
+- Hover over versions to see available updates
+- Use code actions to update dependencies
 
 ## Customization Guide
 
-### Philosophy: Start Small, Add What You Need
+### Adding Rust-Specific Plugins
 
-This configuration is intentionally minimal. Instead of removing features you don't want, you add only what you need.
-
-### Common Customizations
-
-#### Adding a New Language (e.g., Python)
-
-1. **Add LSP server** in `lua/plugins/lsp.lua`:
-   ```lua
-   ensure_installed = {
-     "stylua",
-     "lua-language-server",
-     "pyright", -- Add this
-   }
-   ```
-
-2. **Add server configuration**:
-   ```lua
-   servers = {
-     lua_ls = { ... },
-     pyright = {}, -- Add this
-   }
-   ```
-
-3. **Add treesitter** in `lua/plugins/editor.lua`:
-   ```lua
-   ensure_installed = {
-     "lua",
-     "python", -- Add this
-   }
-   ```
-
-4. **Add formatter** (optional):
-   ```lua
-   formatters_by_ft = {
-     lua = { "stylua" },
-     python = { "black" }, -- Add this
-   }
-   ```
-
-#### Adding More Plugins
-
-Create a new file like `lua/plugins/my-additions.lua`:
+Create `lua/plugins/rust-extras.lua`:
 ```lua
 return {
-  -- Your additional plugins here
   {
-    "your-plugin/name",
+    "simrat39/rust-tools.nvim", -- Alternative to rustaceanvim
+    ft = "rust",
     config = function()
-      -- Plugin configuration
+      -- Additional Rust tooling
     end,
   },
 }
 ```
 
-### Learning Resources
+### Customizing rust-analyzer Settings
 
-- Read the `ccpp-nvim` branch to see a real extension example
-- Check each plugin's documentation for more configuration options
-- The lazy.nvim documentation explains the plugin specification format
+Modify the rust-analyzer configuration in `lua/plugins/lsp.lua`:
+```lua
+rust_analyzer = {
+  ["rust-analyzer"] = {
+    cargo = {
+      allFeatures = true,
+      buildScripts = { enable = true },
+    },
+    checkOnSave = {
+      command = "clippy",
+      extraArgs = { "--no-deps" },
+    },
+    -- Add more settings here
+  },
+},
+```
+
+### Adding More Cargo Commands
+
+Extend `lua/config/keymaps.lua`:
+```lua
+-- Custom Cargo commands
+keymap.set("n", "<leader>rd", "<cmd>!cargo doc --open<cr>", { desc = "Cargo Doc" })
+keymap.set("n", "<leader>rR", "<cmd>!cargo run --release<cr>", { desc = "Cargo Run Release" })
+```
 
 ## Troubleshooting
 
-### LSP Not Working
-1. Check LSP status: `:LspInfo`
-2. Check Mason installations: `:Mason`
-3. Check logs: `:LspLog`
+### Rust LSP Not Working
+1. **Check rust-analyzer installation**:
+   ```bash
+   :Mason
+   # Ensure rust-analyzer is installed
+   ```
+
+2. **Verify Rust toolchain**:
+   ```bash
+   rustc --version
+   cargo --version
+   ```
+
+3. **Check LSP status**: `:LspInfo` - should show rust-analyzer attached
+
+4. **Check project setup**: Ensure you're in a Cargo project (has `Cargo.toml`)
+
+### Debugging Issues
+1. **CodeLLDB not found**:
+   ```bash
+   :Mason
+   # Install codelldb if missing
+   ```
+
+2. **Breakpoints not working**: Ensure you're building with debug symbols:
+   ```bash
+   cargo build  # Not cargo build --release
+   ```
 
 ### Performance Issues
-1. Check startup time: `nvim --startuptime startup.log`
-2. Profile plugins: `:Lazy profile`
+1. **Slow rust-analyzer**: Add to your `Cargo.toml`:
+   ```toml
+   [profile.dev]
+   incremental = true
+   ```
 
-### Completion Not Working
-1. Check blink.cmp capabilities: `:lua print(vim.inspect(require('blink.cmp').get_lsp_capabilities()))`
-2. Restart LSP: `:LspRestart`
+2. **High memory usage**: rust-analyzer can be memory intensive on large projects
 
-### Branch-Specific Issues
-- Ensure you're on the correct branch: `git branch`
-- After switching branches, restart Neovim completely
-- Check branch-specific tool requirements
+### Completion Issues
+1. **No completions**: Wait for rust-analyzer to finish indexing (check bottom-right status)
+2. **Outdated completions**: Try `:LspRestart`
+
+### Cargo Integration Issues
+1. **Commands not working**: Ensure `cargo` is in your PATH
+2. **Wrong directory**: Cargo commands run from Neovim's current working directory
+
+## Advanced Rust Features
+
+### Macro Expansion
+Use rustaceanvim's macro expansion feature:
+```
+:RustLsp expandMacro
+```
+
+### View HIR/MIR
+Inspect Rust's intermediate representations:
+```
+:RustLsp view hir
+:RustLsp view mir
+```
+
+### Inlay Hints
+rust-analyzer provides helpful inlay hints for:
+- Type information
+- Parameter names
+- Closure parameter types
+- Return types
+
+### Code Actions
+Advanced code actions available:
+- Import missing items
+- Fill match arms
+- Generate missing impl blocks
+- Convert between string types
+- Extract functions and variables
 
 ## Contributing
 
-This project welcomes contributions! Here's how you can help:
+This project welcomes contributions for Rust-specific improvements:
 
-### For the Main Branch
-- **Keep it minimal** - Only suggest additions that benefit most users
-- **Improve documentation** - Help make the code more educational
-- **Fix bugs** - Ensure the basic setup works reliably
-
-### For Example Branches
-- **Add new language examples** - Show how to extend for different languages
-- **Improve existing examples** - Better configurations for specific use cases
+### Rust Development Focus
+- **Enhance Rust tooling** - Improve rust-analyzer configuration
+- **Add Rust plugins** - Integrate new Rust-specific tools
+- **Improve debugging** - Better debugging configurations and workflows
+- **Documentation** - Help other Rust developers get started
 
 ### Guidelines
-- Focus on educational value - help others learn
-- Keep configurations well-commented
-- Test changes thoroughly before submitting
+- **Rust-first approach** - Prioritize Rust development experience
+- **Performance matters** - Keep configurations optimized for speed
+- **Real-world usage** - Test with actual Rust projects
+- **Clear documentation** - Help other developers understand the setup
 
 ## Inspiration
 
-This configuration is inspired by:
-- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - The educational approach
+This Rust-focused configuration draws inspiration from:
+- [rust-analyzer](https://rust-analyzer.github.io/) - Official Rust language server
+- [rustaceanvim](https://github.com/mrcjkb/rustaceanvim) - Superior Rust experience in Neovim  
 - [LazyVim](https://github.com/LazyVim/LazyVim) - Modern plugin architecture
-- Community feedback and real-world usage patterns
+- The Rust community's development practices and workflows
 
 ## License
 
