@@ -79,9 +79,62 @@ keymap.set("n", "<leader>cS", function() Snacks.picker.lsp_symbols({ workspace =
 
 -- Terminal keymaps are now handled by Snacks
 
--- Rust-specific keymaps
+-- Language-specific keymaps
+
+-- Rust keymaps
 keymap.set("n", "<leader>rt", "<cmd>!cargo test<cr>", { desc = "Run Rust Tests" })
 keymap.set("n", "<leader>rc", "<cmd>!cargo check<cr>", { desc = "Run Cargo Check" })
 keymap.set("n", "<leader>rb", "<cmd>!cargo build<cr>", { desc = "Run Cargo Build" })
 keymap.set("n", "<leader>rr", "<cmd>!cargo run<cr>", { desc = "Run Cargo Run" })
 keymap.set("n", "<leader>rC", "<cmd>!cargo clippy<cr>", { desc = "Run Cargo Clippy" })
+
+-- C/C++ keymaps
+keymap.set("n", "<leader>cc", "<cmd>!make<cr>", { desc = "Compile with Make" })
+keymap.set("n", "<leader>cb", "<cmd>!cmake --build build<cr>", { desc = "Build with CMake" })
+keymap.set("n", "<leader>cg", "<cmd>!gdb ./a.out<cr>", { desc = "Debug with GDB" })
+
+-- Python keymaps
+keymap.set("n", "<leader>pr", "<cmd>!python %<cr>", { desc = "Run Python File" })
+keymap.set("n", "<leader>pt", "<cmd>!python -m pytest<cr>", { desc = "Run Python Tests" })
+keymap.set("n", "<leader>pi", "<cmd>!pip install -r requirements.txt<cr>", { desc = "Install Requirements" })
+keymap.set("n", "<leader>pf", "<cmd>!black %<cr>", { desc = "Format with Black" })
+keymap.set("n", "<leader>pl", "<cmd>!pylint %<cr>", { desc = "Lint with Pylint" })
+
+-- Bash keymaps
+keymap.set("n", "<leader>br", "<cmd>!bash %<cr>", { desc = "Run Bash Script" })
+keymap.set("n", "<leader>bc", "<cmd>!shellcheck %<cr>", { desc = "Check with Shellcheck" })
+keymap.set("n", "<leader>bx", "<cmd>!chmod +x %<cr>", { desc = "Make Executable" })
+
+-- Markdown keymaps
+keymap.set("n", "<leader>mp", "<cmd>!glow %<cr>", { desc = "Preview Markdown" })
+keymap.set("n", "<leader>mt", "<cmd>!markdownlint %<cr>", { desc = "Lint Markdown" })
+
+-- Lua keymaps (Neovim specific)
+keymap.set("n", "<leader>lr", "<cmd>luafile %<cr>", { desc = "Source Lua File" })
+keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Open Lazy" })
+keymap.set("n", "<leader>lm", "<cmd>Mason<cr>", { desc = "Open Mason" })
+keymap.set("n", "<leader>ls", "<cmd>Lazy sync<cr>", { desc = "Lazy Sync" })
+
+-- Quick run current file based on filetype
+keymap.set("n", "<leader>R", function()
+  local filetype = vim.bo.filetype
+  local file = vim.fn.expand("%")
+  
+  if filetype == "rust" then
+    vim.cmd("!cargo run")
+  elseif filetype == "python" then
+    vim.cmd("!python " .. file)
+  elseif filetype == "c" then
+    vim.cmd("!gcc " .. file .. " -o a.out && ./a.out")
+  elseif filetype == "cpp" then
+    vim.cmd("!g++ " .. file .. " -o a.out && ./a.out")
+  elseif filetype == "sh" or filetype == "bash" then
+    vim.cmd("!bash " .. file)
+  elseif filetype == "lua" then
+    vim.cmd("luafile " .. file)
+  elseif filetype == "markdown" then
+    vim.cmd("!glow " .. file)
+  else
+    vim.notify("No run command defined for filetype: " .. filetype, vim.log.levels.WARN)
+  end
+end, { desc = "Quick Run Current File" })

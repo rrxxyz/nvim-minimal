@@ -47,5 +47,23 @@ opt.shortmess:append("c")
 opt.updatetime = 250
 opt.timeoutlen = 300
 
--- C/C++ specific
+-- Language-specific settings
 vim.g.c_syntax_for_h = 1
+vim.g.python_highlight_all = 1
+vim.g.markdown_fenced_languages = {
+  "c", "cpp", "python", "rust", "lua", "bash", "sh", "zsh"
+}
+
+-- Filetype detection improvements
+vim.filetype.add({
+  extension = {
+    h = "c",
+    hpp = "cpp",
+    cxx = "cpp",
+    cc = "cpp"
+  },
+  pattern = {
+    [".*%.env%..*"] = "sh",
+    ["%.env"] = "sh"
+  }
+})

@@ -23,20 +23,36 @@ return {
       highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
+        -- Core languages
+        "c",
+        "cpp",
+        "python",
+        "rust",
         "lua",
+        "bash",
+        "markdown",
+        -- Language-specific parsers
+        "c_sharp", -- For better C support
+        "cmake",
+        "make",
+        "dockerfile",
+        "toml",
+        "yaml",
+        "json",
+        "markdown_inline",
+        -- Lua-specific
         "luadoc",
         "luap",
+        -- Vim-specific
         "vim",
         "vimdoc",
-        "rust",
-        "toml",
-        "markdown",
-        "markdown_inline",
         "query",
+        -- Additional useful parsers
         "regex",
-        "bash",
-        "json",
-        "yaml",
+        "git_config",
+        "git_rebase",
+        "gitcommit",
+        "gitignore",
       },
       incremental_selection = {
         enable = true,
@@ -152,8 +168,24 @@ return {
     },
     opts = {
       formatters_by_ft = {
+        -- Lua
         lua = { "stylua" },
+        -- Rust
         rust = { "rustfmt" },
+        -- C/C++
+        c = { "clang_format" },
+        cpp = { "clang_format" },
+        -- Python
+        python = { "isort", "black" },
+        -- Bash
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+        -- Markdown
+        markdown = { "prettier" },
+        -- Other useful formats
+        json = { "prettier" },
+        yaml = { "prettier" },
+        toml = { "taplo" },
       },
       format_on_save = {
         timeout_ms = 500,

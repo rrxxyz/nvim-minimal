@@ -25,6 +25,7 @@ return {
     config = function()
       local dap = require("dap")
       
+      -- CodeLLDB adapter for Rust and C/C++
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -34,6 +35,38 @@ return {
         },
       }
       
+      -- Python debugger adapter
+      dap.adapters.python = function(cb, config)
+        if config.request == "attach" then
+          local port = (config.connect or config).port
+          local host = (config.connect or config).host or "127.0.0.1"
+          cb({
+            type = "server",
+            port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+            host = host,
+            options = {
+              source_filetype = "python",
+            },
+          })
+        else
+          cb({
+            type = "executable",
+            command = "debugpy-adapter",
+            options = {
+              source_filetype = "python",
+            },
+          })
+        end
+      end
+      
+      -- Bash debugger adapter
+      dap.adapters.bashdb = {
+        type = "executable",
+        command = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/bash-debug-adapter",
+        name = "bashdb",
+      }
+
+      -- Rust configurations
       dap.configurations.rust = {
         {
           name = "Launch file",
@@ -48,7 +81,7 @@ return {
         {
           name = "Attach to gdbserver :1234",
           type = "codelldb",
-          request = "launch",
+          request = "attach",
           MIMode = "gdb",
           miDebuggerServerAddress = "localhost:1234",
           miDebuggerPath = "/usr/bin/gdb",
@@ -58,6 +91,98 @@ return {
           end,
         },
       }
+
+      -- C configurations
+      dap.configurations.c = {
+        {
+          name = "Launch",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+        {
+          name = "Launch with arguments",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = function()
+            local args_string = vim.fn.input("Arguments: ")
+            return vim.split(args_string, " ")
+          end,
+        },
+      }
+
+      -- C++ configurations (same as C)
+      dap.configurations.cpp = dap.configurations.c
+
+      -- Python configurations
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Launch file",
+          program = "${file}",
+          pythonPath = function()
+            return "/usr/bin/python3"
+          end,
+        },
+        {
+          type = "python",
+          request = "attach",
+          name = "Attach remote",
+          connect = function()
+            local host = vim.fn.input("Host [127.0.0.1]: ")
+            host = host ~= "" and host or "127.0.0.1"
+            local port = tonumber(vim.fn.input("Port [5678]: ")) or 5678
+            return { host = host, port = port }
+          end,
+        },
+      }
+
+      -- Bash configurations
+      dap.configurations.sh = {
+        {
+          type = "bashdb",
+          request = "launch",
+          name = "Launch file",
+          showDebugOutput = true,
+          pathBashdb = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb",
+          pathBashdbLib = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir",
+          trace = true,
+          file = "${file}",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+          pathCat = "cat",
+          pathBash = "/bin/bash",
+          pathMkfifo = "mkfifo",
+          pathPkill = "pkill",
+          args = {},
+          env = {},
+          terminalKind = "integrated",
+        },
+      }
+      
+      -- Set sign icons
+      local signs = {
+        { name = "DapBreakpoint", text = "🔴", texthl = "DiagnosticSignError" },
+        { name = "DapBreakpointCondition", text = "🟡", texthl = "DiagnosticSignWarn" },
+        { name = "DapLogPoint", text = "🔵", texthl = "DiagnosticSignInfo" },
+        { name = "DapStopped", text = "▶️", texthl = "DiagnosticSignWarn" },
+        { name = "DapBreakpointRejected", text = "⚠️", texthl = "DiagnosticSignHint" },
+      }
+
+      for _, sign in ipairs(signs) do
+        vim.fn.sign_define(sign.name, { text = sign.text, texthl = sign.texthl })
+      end
     end,
   },
 

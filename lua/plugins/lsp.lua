@@ -7,11 +7,33 @@ return {
     build = ":MasonUpdate",
     opts = {
       ensure_installed = {
+        -- Lua
         "stylua",
         "lua-language-server",
+        -- Rust
         "rust-analyzer",
-        "codelldb",
         "rustfmt",
+        -- C/C++
+        "clangd",
+        "clang-format",
+        -- Python
+        "pyright",
+        "black",
+        "isort",
+        "ruff",
+        -- Bash
+        "bash-language-server",
+        "shellcheck",
+        "shfmt",
+        -- Markdown
+        "marksman",
+        "prettier",
+        -- Additional formatters
+        "taplo",
+        -- Debug adapters
+        "codelldb",
+        "debugpy",
+        "bash-debug-adapter",
       },
     },
     config = function(_, opts)
@@ -56,6 +78,7 @@ return {
     },
     opts = {
       servers = {
+        -- Lua LSP
         lua_ls = {
           Lua = {
             completion = {
@@ -116,6 +139,8 @@ return {
             },
           },
         },
+
+        -- Rust LSP
         rust_analyzer = {
           ["rust-analyzer"] = {
             cargo = {
@@ -138,7 +163,96 @@ return {
                 ["async-recursion"] = { "async_recursion" },
               },
             },
+            inlayHints = {
+              bindingModeHints = {
+                enable = false,
+              },
+              chainingHints = {
+                enable = true,
+              },
+              closingBraceHints = {
+                enable = true,
+                minLines = 25,
+              },
+              closureReturnTypeHints = {
+                enable = "never",
+              },
+              lifetimeElisionHints = {
+                enable = "never",
+                useParameterNames = false,
+              },
+              maxLength = 25,
+              parameterHints = {
+                enable = true,
+              },
+              reborrowHints = {
+                enable = "never",
+              },
+              renderColons = true,
+              typeHints = {
+                enable = true,
+                hideClosureInitialization = false,
+                hideNamedConstructor = false,
+              },
+            },
           },
+        },
+
+        -- C/C++ LSP
+        clangd = {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
+              fname
+            ) or require("lspconfig.util").find_git_ancestor(fname)
+          end,
+        },
+
+        -- Python LSP
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "basic",
+                diagnosticMode = "workspace",
+                inlayHints = {
+                  variableTypes = true,
+                  functionReturnTypes = true,
+                },
+              },
+            },
+          },
+        },
+
+        -- Bash LSP
+        bashls = {
+          filetypes = { "sh", "bash" },
+        },
+
+        -- Markdown LSP
+        marksman = {
+          filetypes = { "markdown", "markdown.mdx" },
         },
       },
     },
