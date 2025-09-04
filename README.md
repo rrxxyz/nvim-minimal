@@ -2,8 +2,6 @@
 
 A modern Neovim configuration specifically optimized for Rust development with Lua support for configuration management.
 
-## Philosophy
-
 This configuration is purpose-built for Rust developers who want a powerful, fast, and well-integrated development environment. It combines the best Rust tooling with essential Neovim functionality, providing everything you need for productive Rust development.
 
 ## Current Branch: rust-nvim (Rust Development Configuration)
@@ -374,7 +372,7 @@ Advanced code actions available:
 - Convert between string types
 - Extract functions and variables
 
-## Contributing
+## 🤝 Contributing to the Starter Kit
 
 This project welcomes contributions for Rust-specific improvements:
 
