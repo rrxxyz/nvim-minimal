@@ -97,7 +97,11 @@ return {
                         },
                     },
                     lualine_y = {
-                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                        {
+                            "progress",
+                            separator = " ",
+                            padding = { left = 1, right = 0 },
+                        },
                         { "location", padding = { left = 0, right = 1 } },
                     },
                     lualine_z = {
@@ -497,13 +501,13 @@ return {
                     { "<leader>g", group = "git" },
                     { "<leader>l", group = "lua/lazy" },
                     { "<leader>m", group = "markdown" },
-                    { "<leader>p", group = "python" },
                     { "<leader>r", group = "rust" },
                     { "<leader>s", group = "search" },
                     { "<leader>t", group = "terminal" },
                     { "<leader>u", group = "ui" },
                     { "<leader>w", group = "windows" },
                     { "<leader>x", group = "diagnostics/quickfix" },
+                    { "<leader>o", group = "Obsidian" },
                     { "[", group = "prev" },
                     { "]", group = "next" },
                     { "g", group = "goto" },
