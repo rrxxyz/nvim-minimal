@@ -10,8 +10,8 @@ return {
                 -- Lua
                 "stylua",
                 "lua-language-server",
-                -- Rust (handled by rustaceanvim)
-                -- "rust-analyzer",
+                -- Rust
+                "rust-analyzer",
                 -- C/C++
                 "clangd",
                 "clang-format",
@@ -65,7 +65,7 @@ return {
     -- LSP configuration
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason.nvim",
             "mason-org/mason-lspconfig.nvim",
@@ -144,7 +144,23 @@ return {
                     },
                 },
 
-                -- Rust LSP is handled by rustaceanvim plugin
+                -- Rust LSP
+                rust_analyzer = {
+                    settings = {
+                        ["rust-analyzer"] = {
+                            cargo = {
+                                allFeatures = true,
+                                loadOutDirsFromCheck = true,
+                                buildScripts = {
+                                    enable = true,
+                                },
+                            },
+                            procMacro = {
+                                enable = true,
+                            },
+                        },
+                    },
+                },
 
                 -- C/C++ LSP
                 clangd = {
@@ -198,31 +214,22 @@ return {
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "lua_ls",
-                    "clangd", 
+                    "clangd",
                     "pyright",
                     "bashls",
                     "marksman",
                     "kotlin_language_server",
                     "gradle_ls",
-                    -- Explicitly exclude rust_analyzer - handled by rustaceanvim
+                    "rust_analyzer",
                 },
                 automatic_installation = true,
                 handlers = {
                     -- Default handler for most servers
                     function(server_name)
-                        -- Skip rust_analyzer completely - handled by rustaceanvim
-                        if server_name == "rust_analyzer" then
-                            return
-                        end
-                        
                         local server_config = opts.servers[server_name] or {}
-                        server_config.capabilities = require("blink.cmp").get_lsp_capabilities(server_config.capabilities)
+                        server_config.capabilities =
+                            require("blink.cmp").get_lsp_capabilities(server_config.capabilities)
                         lspconfig[server_name].setup(server_config)
-                    end,
-                    
-                    -- Explicit handler for rust_analyzer to prevent setup
-                    ["rust_analyzer"] = function() 
-                        -- Do nothing - rustaceanvim handles this
                     end,
                 },
             })
@@ -262,6 +269,32 @@ return {
                         [vim.diagnostic.severity.WARN] = "▲",
                         [vim.diagnostic.severity.HINT] = "⚑",
                         [vim.diagnostic.severity.INFO] = "»",
+                    },
+                },
+            })
+        end,
+    },
+
+    {
+        "saecki/crates.nvim",
+        tag = "stable",
+        config = function()
+            require("crates").setup({
+                completion = {
+                    blink = {
+                        use_custom_kind = true,
+                        kind_text = {
+                            version = "Version",
+                            feature = "Feature",
+                        },
+                        kind_highlight = {
+                            version = "BlinkCmpKindVersion",
+                            feature = "BlinkCmpKindFeature",
+                        },
+                        kind_icon = {
+                            version = " ",
+                            feature = " ",
+                        },
                     },
                 },
             })
