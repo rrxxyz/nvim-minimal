@@ -11,7 +11,6 @@ return {
                 "lua-language-server",
                 "rust-analyzer",
                 "codelldb",
-                "rustfmt",
             },
         },
         config = function(_, opts)
@@ -116,7 +115,13 @@ return {
                         },
                     },
                 },
-                rust_analyzer = { enabled = true },
+                rust_analyzer = {
+                    ["rust-analyzer"] = {
+                        cargo = {
+                            features = "all",
+                        },
+                    },
+                },
             },
         },
         config = function(_, opts)
