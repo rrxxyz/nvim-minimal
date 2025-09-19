@@ -116,9 +116,11 @@ return {
                     },
                 },
                 rust_analyzer = {
-                    ["rust-analyzer"] = {
-                        cargo = {
-                            features = "all",
+                    settings = {
+                        ["rust-analyzer"] = {
+                            cargo = {
+                                features = "all",
+                            },
                         },
                     },
                 },
