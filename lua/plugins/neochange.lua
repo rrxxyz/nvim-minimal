@@ -5,4 +5,3 @@ return {
     end,
     lazy = false,
 }
-

@@ -36,6 +36,10 @@ return {
                 "json",
                 "yaml",
                 "kotlin",
+                "toml",
+                "java",
+                "xml",
+                "groovy",
             },
             incremental_selection = {
                 enable = true,
@@ -153,13 +157,14 @@ return {
             formatters_by_ft = {
                 lua = { "stylua" },
                 kotlin = { "ktlint" },
+                java = { "google-java-format" },
             },
             format_on_save = {
                 timeout_ms = 1000,
                 lsp_format = "fallback",
             },
         },
-        init = function(plugin)
+        init = function(_)
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end,
     },

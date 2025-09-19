@@ -11,6 +11,12 @@ return {
                 "lua-language-server",
                 "kotlin-language-server",
                 "ktlint",
+                "taplo",
+                "gradle-language-server",
+                "lemminx",
+                "java-language-server",
+                "java-debug-adapter",
+                "java-test",
             },
         },
         config = function(_, opts)
@@ -55,6 +61,10 @@ return {
         },
         opts = {
             servers = {
+                lemminx = {},
+                gradle_ls = {},
+                taplo = {},
+                jdtls = {},
                 kotlin_language_server = {},
                 lua_ls = {
                     Lua = {
@@ -116,6 +126,11 @@ return {
                         },
                     },
                 },
+            },
+            setup = {
+                jdtls = function()
+                    return true -- avoid duplicate servers
+                end,
             },
         },
         config = function(_, opts)
