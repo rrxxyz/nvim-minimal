@@ -2,7 +2,7 @@
 
 **A complete Android development environment built on a modular Neovim configuration.**
 
-This is the **android-nvim** branch - a specialized Android development setup that extends our language-agnostic starter kit foundation. Get a fully-featured Android development environment with Kotlin LSP, Gradle integration, logcat viewing, and comprehensive debugging tools.
+This is the **android-nvim** branch - a specialized Android development setup that extends our language-agnostic starter kit foundation. Get a fully-featured Android development environment with Kotlin LSP, Gradle integration, logcat viewing, and comprehensive debugging tools using modern Neovim plugins and configuration patterns.
 
 ## 🎯 Why Choose This Android Development Setup?
 
@@ -63,16 +63,17 @@ This branch provides a complete Android development environment with:
 - **Plugin Management**: lazy.nvim for fast, lazy-loaded plugins
 - **Android Development**: droid-nvim for complete Android project integration
 - **Kotlin LSP**: Full language server support with kotlin-language-server
+- **Java LSP**: jdtls for comprehensive Java development support
 - **Gradle Integration**: Execute and monitor Gradle tasks directly from Neovim
 - **Logcat Viewer**: Real-time Android device logging with advanced filtering
 - **XML Support**: Language server (lemminx) and formatting for Android manifests/layouts
 - **TOML Support**: Configuration file support with taplo for Gradle version catalogs
-- **Completion**: blink.cmp for modern completion experience with Kotlin support
-- **Syntax Highlighting**: Tree-sitter for accurate Kotlin, Java, and XML highlighting
-- **File Navigation**: Telescope for fuzzy finding across Android project structure
+- **Completion**: blink.cmp for modern completion experience with Kotlin/Java support
+- **Syntax Highlighting**: Tree-sitter for accurate Kotlin, Java, XML, and Groovy highlighting
+- **File Navigation**: Snacks.nvim picker for fuzzy finding across Android project structure
 - **Git Integration**: Git signs and navigation optimized for Android development workflow
-- **Debugging**: nvim-dap integration for Android debugging
-- **Modern UI**: Clean theme with statusline showing build status
+- **Debugging**: nvim-dap integration for Android debugging (planned)
+- **Modern UI**: TokyoNight theme with lualine statusline and bufferline
 
 ### What Makes This Different
 
@@ -106,11 +107,13 @@ This branch provides a complete Android development environment with:
 Mason will automatically install these language servers and tools:
 
 - **`kotlin-language-server`** - Kotlin LSP for code completion, navigation, and diagnostics
+- **`java-language-server`** - Java development support with jdtls
 - **`gradle-language-server`** - Gradle build script support and completion
 - **`lemminx`** - XML language server for Android manifests and layouts
-- **`xmlformatter`** - XML formatting for clean Android resource files
 - **`taplo`** - TOML language server for Gradle version catalogs
 - **`ktlint`** - Kotlin code formatting and style checking
+- **`java-debug-adapter`** - Java debugging support
+- **`java-test`** - Java testing framework integration
 - **`lua-language-server`** - For Neovim configuration editing
 - **`stylua`** - Lua code formatting
 
@@ -160,23 +163,25 @@ _All Android development tools are automatically configured for immediate produc
 
 ```
 ~/.config/nvim/
-├── init.lua                    # Entry point
+├── init.lua                    # Entry point, bootstraps lazy.nvim
 ├── lua/
 │   ├── config/
 │   │   ├── options.lua        # Vim options and settings
 │   │   ├── keymaps.lua        # Key mappings
 │   │   └── autocmds.lua       # Auto commands
 │   └── plugins/
-│       ├── lsp.lua            # LSP configuration (Kotlin, Gradle, XML, TOML)
-│       ├── completion.lua     # Completion engine
-│       ├── editor.lua         # Core editing plugins
-│       ├── ui.lua             # UI enhancements
-│       ├── debug.lua          # Debugging support
-│       ├── droid.lua          # Android development integration
+│       ├── lsp.lua            # LSP servers (Mason + nvim-lspconfig)
+│       ├── completion.lua     # blink.cmp completion engine
+│       ├── editor.lua         # Core editing plugins (treesitter, gitsigns, etc.)
+│       ├── ui.lua             # UI enhancements (statusline, theme, snacks.nvim)
+│       ├── debug.lua          # Debugging support (nvim-dap) - planned
+│       ├── droid.lua          # Android development tools (droid-nvim)
 │       └── neochange.lua      # Branch switching plugin
 ├── CLAUDE.md                   # Claude Code instructions
-├── lazy-lock.json              # Plugin version lock file
-└── README.md                   # This file
+├── .stylua.toml               # Stylua formatting configuration
+├── .luacheckrc                # Luacheck linting configuration
+├── lazy-lock.json             # Plugin version lock file
+└── README.md                  # This file
 ```
 
 ## Key Bindings
@@ -199,13 +204,14 @@ _All Android development tools are automatically configured for immediate produc
 
 ### File Management
 
-| Key         | Action                |
-| ----------- | --------------------- |
-| `<Space>e`  | Toggle file explorer  |
-| `<Space>ff` | Find files            |
-| `<Space>fg` | Find text (live grep) |
-| `<Space>fb` | Find buffers          |
-| `<Space>fr` | Recent files          |
+| Key         | Action                     |
+| ----------- | -------------------------- |
+| `<Space>e`  | Toggle file explorer       |
+| `<Space>ff` | Find files (Snacks picker) |
+| `<Space>fg` | Find text (live grep)      |
+| `<Space>fb` | Find buffers               |
+| `<Space>fr` | Recent files               |
+| `<Space>fn` | Find Neovim config files   |
 
 ### LSP
 
@@ -411,9 +417,11 @@ This configuration is intentionally minimal. Instead of removing features you do
     ```lua
     ensure_installed = {
       "kotlin-language-server",
+      "java-language-server",
       "gradle-language-server",
       "lemminx",
-      "java-language-server", -- Add for Java support
+      "taplo",
+      "your-new-language-server", -- Add here
     }
     ```
 
@@ -422,8 +430,11 @@ This configuration is intentionally minimal. Instead of removing features you do
     ```lua
     servers = {
       kotlin_language_server = {},
+      jdtls = {},
       gradle_ls = {},
-      jdtls = {}, -- Add Java LSP configuration
+      lemminx = {},
+      taplo = {},
+      your_new_server = {}, -- Add configuration here
     }
     ```
 
@@ -434,7 +445,9 @@ This configuration is intentionally minimal. Instead of removing features you do
       "kotlin",
       "java",
       "xml",
-      "groovy", -- Add for Gradle build scripts
+      "groovy",
+      "toml",
+      "your-language", -- Add parser here
     }
     ```
 
@@ -442,7 +455,8 @@ This configuration is intentionally minimal. Instead of removing features you do
     ```lua
     formatters_by_ft = {
       kotlin = { "ktlint" },
-      java = { "google-java-format" }, -- Add this
+      java = { "google-java-format" },
+      your_language = { "your-formatter" }, -- Add this
     }
     ```
 
