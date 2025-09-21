@@ -115,15 +115,7 @@ return {
                         },
                     },
                 },
-                rust_analyzer = {
-                    settings = {
-                        ["rust-analyzer"] = {
-                            cargo = {
-                                features = "all",
-                            },
-                        },
-                    },
-                },
+                rust_analyzer = { enabled = false },
             },
         },
         config = function(_, opts)
