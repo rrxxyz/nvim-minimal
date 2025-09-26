@@ -145,22 +145,7 @@ return {
                 },
 
                 -- Rust LSP
-                rust_analyzer = {
-                    settings = {
-                        ["rust-analyzer"] = {
-                            cargo = {
-                                allFeatures = true,
-                                loadOutDirsFromCheck = true,
-                                buildScripts = {
-                                    enable = true,
-                                },
-                            },
-                            procMacro = {
-                                enable = true,
-                            },
-                        },
-                    },
-                },
+                rust_analyzer = { enabled = false },
 
                 -- C/C++ LSP
                 clangd = {
@@ -297,6 +282,25 @@ return {
                         },
                     },
                 },
+            })
+        end,
+    },
+
+    {
+        "mfussenegger/nvim-lint",
+        event = { "BufReadPre", "BufWritePost" },
+        config = function()
+            local lint = require("lint")
+            lint.linters_by_ft = {
+                kotlin = { "ktlint" },
+            }
+
+            -- Optional: set up automatic linting on events
+            vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+                group = vim.api.nvim_create_augroup("lint", { clear = true }),
+                callback = function()
+                    require("lint").try_lint()
+                end,
             })
         end,
     },

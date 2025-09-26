@@ -191,7 +191,7 @@ return {
                 toml = { "taplo" },
             },
             format_on_save = {
-                timeout_ms = 500,
+                timeout_ms = 1000,
                 lsp_format = "fallback",
             },
         },
@@ -295,6 +295,32 @@ return {
         keys = {
             { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
             { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+        },
+    },
+    {
+        "jiaoshijie/undotree",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        ---@module 'undotree.collector'
+        ---@type UndoTreeCollector.Opts
+        opts = {},
+        keys = { -- load the plugin only when using it's keybinding:
+            { "<leader>ut", "<cmd>lua require('undotree').toggle()<cr>", desc = "Undo tree" },
+        },
+    },
+    {
+        "nvim-mini/mini.pairs",
+        event = "VeryLazy",
+        opts = {
+            modes = { insert = true, command = true, terminal = false },
+            -- skip autopair when next character is one of these
+            skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+            -- skip autopair when the cursor is inside these treesitter nodes
+            skip_ts = { "string" },
+            -- skip autopair when next character is closing pair
+            -- and there are more closing pairs than opening pairs
+            skip_unbalanced = true,
+            -- better deal with markdown code blocks
+            markdown = true,
         },
     },
 }
