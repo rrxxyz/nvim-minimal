@@ -81,7 +81,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
+-- Auto create dir when saving a file
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     group = augroup("auto_create_dir"),
     callback = function(event)
@@ -93,75 +93,29 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end,
 })
 
--- Language-specific autocmds
+-- Language-specific settings (table-driven approach)
+local lang_settings = {
+    { fts = { "c", "cpp" }, tabstop = 4, shiftwidth = 4, expandtab = true, commentstring = "// %s" },
+    { fts = { "python" }, tabstop = 4, shiftwidth = 4, expandtab = true },
+    { fts = { "rust" }, tabstop = 4, shiftwidth = 4, expandtab = true },
+    { fts = { "sh", "bash" }, tabstop = 2, shiftwidth = 2, expandtab = true },
+    { fts = { "lua" }, tabstop = 2, shiftwidth = 2, expandtab = true },
+    { fts = { "markdown" }, tabstop = 2, shiftwidth = 2, expandtab = true, conceallevel = 2 },
+}
 
--- C/C++ specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("c_cpp"),
-    pattern = { "c", "cpp" },
-    callback = function()
-        vim.opt_local.commentstring = "// %s"
-        vim.opt_local.tabstop = 4
-        vim.opt_local.shiftwidth = 4
-        vim.opt_local.expandtab = true
-    end,
-})
-
--- Python specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("python"),
-    pattern = { "python" },
-    callback = function()
-        vim.opt_local.tabstop = 4
-        vim.opt_local.shiftwidth = 4
-        vim.opt_local.expandtab = true
-    end,
-})
-
--- Rust specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("rust"),
-    pattern = { "rust" },
-    callback = function()
-        vim.opt_local.tabstop = 4
-        vim.opt_local.shiftwidth = 4
-        vim.opt_local.expandtab = true
-    end,
-})
-
--- Bash specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("bash"),
-    pattern = { "sh", "bash" },
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.expandtab = true
-    end,
-})
-
--- Lua specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("lua"),
-    pattern = { "lua" },
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.expandtab = true
-    end,
-})
-
--- Markdown specific
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("markdown"),
-    pattern = { "markdown" },
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.expandtab = true
-        vim.opt_local.conceallevel = 2
-    end,
-})
+for _, config in ipairs(lang_settings) do
+    vim.api.nvim_create_autocmd("FileType", {
+        group = augroup("lang_" .. table.concat(config.fts, "_")),
+        pattern = config.fts,
+        callback = function()
+            if config.tabstop then vim.opt_local.tabstop = config.tabstop end
+            if config.shiftwidth then vim.opt_local.shiftwidth = config.shiftwidth end
+            if config.expandtab ~= nil then vim.opt_local.expandtab = config.expandtab end
+            if config.commentstring then vim.opt_local.commentstring = config.commentstring end
+            if config.conceallevel then vim.opt_local.conceallevel = config.conceallevel end
+        end,
+    })
+end
 
 -- Auto format on save for specific languages
 vim.api.nvim_create_autocmd("BufWritePre", {

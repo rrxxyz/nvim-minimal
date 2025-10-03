@@ -18,7 +18,13 @@ require("config.keymaps")
 require("config.autocmds")
 
 -- Setup plugins
-require("lazy").setup("plugins", {
+require("lazy").setup({
+    { import = "plugins.ui" },
+    { import = "plugins.editor" },
+    { import = "plugins.coding" },
+    { import = "plugins.dap" },
+    { import = "plugins.lang" },
+}, {
     defaults = {
         lazy = false,
     },

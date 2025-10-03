@@ -1,0 +1,65 @@
+return {
+    "nvim-treesitter/nvim-treesitter",
+    version = false,
+    build = ":TSUpdate",
+    event = { "VeryLazy" },
+    lazy = vim.fn.argc(-1) == 0,
+    init = function(plugin)
+        require("lazy.core.loader").add_to_rtp(plugin)
+        require("nvim-treesitter.query_predicates")
+    end,
+    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    keys = {
+        { "<c-space>", desc = "Increment Selection" },
+        { "<bs>", desc = "Decrement Selection", mode = "x" },
+    },
+    opts = {
+        sync_install = false,
+        auto_install = true,
+        ignore_install = {},
+        modules = {},
+        highlight = { enable = true },
+        indent = { enable = true },
+        ensure_installed = {
+            "c",
+            "cpp",
+            "python",
+            "rust",
+            "lua",
+            "bash",
+            "markdown",
+            "kotlin",
+            "c_sharp",
+            "cmake",
+            "make",
+            "dockerfile",
+            "toml",
+            "yaml",
+            "json",
+            "markdown_inline",
+            "luadoc",
+            "luap",
+            "vim",
+            "vimdoc",
+            "query",
+            "regex",
+            "git_config",
+            "git_rebase",
+            "gitcommit",
+            "gitignore",
+        },
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = "<C-space>",
+                node_incremental = "<C-space>",
+                scope_incremental = false,
+                node_decremental = "<bs>",
+            },
+        },
+    },
+    opts_extend = { "ensure_installed" },
+    config = function(_, opts)
+        require("nvim-treesitter.configs").setup(opts)
+    end,
+}

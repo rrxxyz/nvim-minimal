@@ -13,7 +13,6 @@ return {
                     end, { desc = "Rust Debuggables", buffer = bufnr })
                 end,
                 default_settings = {
-                    -- rust-analyzer language server configuration
                     ["rust-analyzer"] = {
                         cargo = {
                             allFeatures = true,
@@ -22,9 +21,7 @@ return {
                                 enable = true,
                             },
                         },
-                        -- Add clippy lints for Rust if using rust-analyzer
                         checkOnSave = true,
-                        -- Enable diagnostics if using rust-analyzer
                         diagnostics = {
                             enable = true,
                         },
@@ -58,12 +55,32 @@ return {
             local codelldb_lib_ext = io.popen("uname"):read("*l") == "Linux" and ".so" or ".dylib"
             local library_path = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. codelldb_lib_ext)
             opts.dap = {
-                adapter = require("rustaceanvim.config").get_codelldb_adapter(
-                    codelldb,
-                    library_path
-                ),
+                adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
             }
             vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
         end,
+    },
+    {
+        "saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        opts = {
+            completion = {
+                blink = {
+                    use_custom_kind = true,
+                    kind_text = {
+                        version = "Version",
+                        feature = "Feature",
+                    },
+                    kind_highlight = {
+                        version = "BlinkCmpKindVersion",
+                        feature = "BlinkCmpKindFeature",
+                    },
+                    kind_icon = {
+                        version = " ",
+                        feature = " ",
+                    },
+                },
+            },
+        },
     },
 }

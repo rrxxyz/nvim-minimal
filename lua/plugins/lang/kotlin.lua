@@ -39,7 +39,7 @@ return {
             android = {
                 auto_select_single_target = true,
                 -- Qt platform for Linux compatibility
-                -- qt_qpa_platform = "xcb",
+                qt_qpa_platform = "xcb",
                 -- Optional: set custom paths if needed
                 -- adb_path = "/path/to/custom/adb",
                 -- emulator_path = "/path/to/custom/emulator",
