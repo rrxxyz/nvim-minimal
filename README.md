@@ -1,45 +1,42 @@
-# Rust-Focused Neovim Configuration
+# Personal Neovim Configuration
 
-A modern Neovim configuration specifically optimized for Rust development with Lua support for configuration management.
+A modern Neovim configuration optimized for multi-language development with Lua-based configuration.
 
-This configuration is purpose-built for Rust developers who want a powerful, fast, and well-integrated development environment. It combines the best Rust tooling with essential Neovim functionality, providing everything you need for productive Rust development.
+This is my personal setup designed for daily programming work across multiple languages including Lua, C/C++, Rust, Python, and Kotlin. It combines powerful language tooling with essential Neovim functionality for a productive development environment.
 
-## Current Branch: rust-nvim (Rust Development Configuration)
+## Current Branch: personal
 
-This branch provides a comprehensive Rust development setup with:
-- Advanced Rust language server integration (rust-analyzer)
-- Intelligent code completion and diagnostics
-- Integrated debugging with CodeLLDB
-- Cargo integration for testing, building, and running
-- Smart dependency management for Cargo.toml
-- Optimized for Rust workflows while maintaining Lua support for Neovim configuration
+This is my personal development setup supporting multiple languages for daily use:
+- **Lua** - Primary language for Neovim configuration
+- **C/C++** - Systems programming and performance-critical code
+- **Rust** - Modern systems programming with safety guarantees
+- **Python** - Scripting, automation, and data processing
+- **Kotlin** - Android and JVM development
 
 ## What's Included
 
-### Rust Development Features
-- **rust-analyzer**: Advanced Rust language server with intelligent diagnostics
-- **rustaceanvim**: Comprehensive Rust tooling integration
-- **CodeLLDB Debugging**: Full debugging support for Rust applications
-- **Cargo Integration**: Built-in commands for test, build, run, check, and clippy
-- **Smart Completion**: Context-aware code completion with type information
-- **Crates.nvim**: Intelligent Cargo.toml dependency management
-- **Error Diagnostics**: Real-time error checking and suggestions
-- **Code Formatting**: Automatic rustfmt integration with format-on-save
+### Multi-Language Support
+- **Lua** - lua_ls with full Neovim API support and stylua formatting
+- **C/C++** - clangd LSP with intelligent completion and diagnostics
+- **Rust** - rust-analyzer, rustaceanvim, CodeLLDB debugging, Cargo integration, and crates.nvim
+- **Python** - pyright/basedpyright for type checking and intelligent code analysis
+- **Kotlin** - kotlin-language-server for Android and JVM development
 
 ### Core Editor Features
 - **Plugin Management**: lazy.nvim for fast, lazy-loaded plugins
-- **LSP Support**: rust-analyzer and lua_ls with optimized configurations
-- **Completion**: blink.cmp for modern completion experience
-- **Syntax Highlighting**: Tree-sitter with Rust and TOML support
+- **LSP Support**: Language servers for all supported languages with optimized configurations
+- **Completion**: blink.cmp for modern, context-aware completion experience
+- **Syntax Highlighting**: Tree-sitter with multi-language support
 - **File Navigation**: Advanced fuzzy finding and project navigation
-- **Git Integration**: Comprehensive git workflow support
+- **Git Integration**: Comprehensive git workflow support with gitsigns and fugitive
+- **Debugging**: DAP support for multiple languages
 - **Modern UI**: Clean, distraction-free interface
 
-### What Makes This Different
-- **Rust-optimized** - Every tool configured specifically for Rust development
-- **Professional-grade** - Production-ready setup used by Rust professionals
+### What Makes This Setup
+- **Multi-language ready** - Configured for Lua, C/C++, Rust, Python, and Kotlin
+- **Personal workflow** - Tailored to my daily development needs
 - **Performance-focused** - Fast startup and responsive editing
-- **Complete toolchain** - Everything needed for Rust development in one config
+- **Complete toolchain** - Everything needed for polyglot development
 
 ## Requirements
 
