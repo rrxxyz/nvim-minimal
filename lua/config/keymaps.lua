@@ -44,8 +44,6 @@ keymap.set("n", "<C-a>", "ggVG", { desc = "V to All" })
 -- Move Lines
 keymap.set("n", "<S-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 keymap.set("n", "<S-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
-keymap.set("i", "<S-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
-keymap.set("i", "<S-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 keymap.set("v", "<S-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 keymap.set("v", "<S-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 
