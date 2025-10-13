@@ -75,31 +75,8 @@ return {
         },
         setup = {
             clangd = function(_, opts)
-                local clangd_ext_opts = {
-                    extensions = {
-                        -- example extra configs from clangd_extensions.nvim
-                        autoSetHints = true,
-                        inlay_hints = {
-                            only_current_line = false,
-                            show_parameter_hints = true,
-                            parameter_hints_prefix = "<- ",
-                            other_hints_prefix = "=> ",
-                        },
-                        ast = {
-                            role_icons = {
-                                type = "",
-                                declaration = "",
-                                expression = "",
-                                specifier = "",
-                                statement = "",
-                                ["template argument"] = "",
-                            },
-                        },
-                    },
-                }
-                require("clangd_extensions").setup(
-                    vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts })
-                )
+                require("clangd_extensions").setup({ server = opts })
+                return true
             end,
         },
     },

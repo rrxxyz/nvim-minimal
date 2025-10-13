@@ -6,12 +6,11 @@ return {
         ft = "markdown",
         -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
         event = {
-            -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-            -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-            -- refer to `:h file-pattern` for more examples
-            "BufReadPre "
-                .. vim.fn.expand("~")
-                .. "/Notes/Vaults/*.md",
+            -- Load for markdown files in both Work and Personal vaults
+            "BufReadPre " .. vim.fn.expand("~") .. "/Notes/Work/*.md",
+            "BufReadPre " .. vim.fn.expand("~") .. "/Notes/Personal/*.md",
+            "BufNewFile " .. vim.fn.expand("~") .. "/Notes/Work/*.md",
+            "BufNewFile " .. vim.fn.expand("~") .. "/Notes/Personal/*.md",
         },
         dependencies = {
             -- Required.
@@ -23,10 +22,44 @@ return {
         },
         opts = {
             ui = { enabled = false },
-            dir = "~/Notes/Vaults",
+            workspaces = {
+                {
+                    name = "Personal",
+                    path = "~/Notes/Personal",
+                },
+                {
+                    name = "Work",
+                    path = "~/Notes/Work",
+                },
+            },
             completion = {
                 nvim_cmp = false,
             },
+
+            -- Templates configuration
+            templates = {
+                folder = "templates",
+                date_format = "%Y-%m-%d",
+                time_format = "%H:%M",
+            },
+
+            -- Automatically add frontmatter with date to new notes
+            note_frontmatter_func = function(note)
+                local out = {
+                    id = note.id,
+                    aliases = note.aliases,
+                    tags = note.tags,
+                    date = os.date("%Y-%m-%d"),
+                    created = os.date("%Y-%m-%d %H:%M"),
+                }
+                -- Preserve existing frontmatter if note has it
+                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                    for k, v in pairs(note.metadata) do
+                        out[k] = v
+                    end
+                end
+                return out
+            end,
 
             picker = {
                 name = "telescope.nvim",
@@ -75,7 +108,21 @@ return {
             },
         },
         keys = {
-            { "<leader>on", ":ObsidianNew<CR>", desc = "Obsidian New" },
+            { "<leader>oo", "<cmd>ObsidianOpen<CR>", desc = "Open note" },
+            { "<leader>on", "<cmd>ObsidianNew<CR>", desc = "New note" },
+            { "<leader>os", "<cmd>ObsidianSearch<CR>", desc = "Search notes" },
+            { "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", desc = "Quick switch" },
+            { "<leader>og", "<cmd>ObsidianTags<CR>", desc = "Search tags" },
+            { "<leader>ol", "<cmd>ObsidianLinks<CR>", desc = "Show links" },
+            { "<leader>ob", "<cmd>ObsidianBacklinks<CR>", desc = "Show backlinks" },
+            { "<leader>ow", "<cmd>ObsidianWorkspace<CR>", desc = "Switch workspace" },
+            { "<leader>od", "<cmd>ObsidianToday<CR>", desc = "Open today's note" },
+            { "<leader>oy", "<cmd>ObsidianYesterday<CR>", desc = "Open yesterday's note" },
+            { "<leader>ot", "<cmd>ObsidianTemplate<CR>", desc = "Insert template" },
+            { "<leader>oe", "<cmd>ObsidianExtractNote<CR>", desc = "Extract to new note", mode = "v" },
+            { "<leader>op", "<cmd>ObsidianPasteImg<CR>", desc = "Paste image" },
+            { "<leader>or", "<cmd>ObsidianRename<CR>", desc = "Rename note" },
+            { "<leader>of", "<cmd>ObsidianFollowLink<CR>", desc = "Follow link" },
         },
     },
     {

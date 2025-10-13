@@ -27,6 +27,11 @@ return {
             yaml = { "prettier" },
             toml = { "taplo" },
         },
+        formatters = {
+            clang_format = {
+                prepend_args = { "--style=file" },
+            },
+        },
         format_on_save = {
             timeout_ms = 700,
             lsp_format = "fallback",

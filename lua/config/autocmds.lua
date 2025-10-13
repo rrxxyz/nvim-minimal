@@ -95,7 +95,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 -- Language-specific settings (table-driven approach)
 local lang_settings = {
-    { fts = { "c", "cpp" }, tabstop = 4, shiftwidth = 4, expandtab = true, commentstring = "// %s" },
+    { fts = { "c", "cpp" }, tabstop = 2, shiftwidth = 2, expandtab = true, commentstring = "// %s" },
     { fts = { "python" }, tabstop = 4, shiftwidth = 4, expandtab = true },
     { fts = { "rust" }, tabstop = 4, shiftwidth = 4, expandtab = true },
     { fts = { "sh", "bash" }, tabstop = 2, shiftwidth = 2, expandtab = true },
