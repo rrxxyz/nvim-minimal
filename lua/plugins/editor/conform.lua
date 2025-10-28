@@ -16,10 +16,9 @@ return {
         formatters_by_ft = {
             lua = { "stylua" },
             kotlin = { "ktlint" },
-            rust = { "rust-analyzer" },
             c = { "clang_format" },
             cpp = { "clang_format" },
-            python = { "isort", "black" },
+            python = { "ruff_fix", "ruff_format", "black", "isort" },
             sh = { "shfmt" },
             bash = { "shfmt" },
             markdown = { "prettier" },
@@ -31,9 +30,29 @@ return {
             clang_format = {
                 prepend_args = { "--style=file" },
             },
+            ruff_fix = {
+                command = "ruff",
+                args = { "check", "--fix", "--exit-zero", "--stdin-filename", "$FILENAME", "-" },
+                stdin = true,
+            },
+            ruff_format = {
+                command = "ruff",
+                args = { "format", "--stdin-filename", "$FILENAME", "-" },
+                stdin = true,
+            },
+            ktlint = {
+                command = "ktlint",
+                args = {
+                    "--format",
+                    "$FILENAME",
+                    "--stdin",
+                    "--log-level=none",
+                },
+                stdin = true,
+            },
         },
         format_on_save = {
-            timeout_ms = 700,
+            timeout_ms = 1000,
             lsp_format = "fallback",
         },
     },

@@ -51,19 +51,26 @@ opt.timeoutlen = 300
 vim.g.c_syntax_for_h = 1
 vim.g.python_highlight_all = 1
 vim.g.markdown_fenced_languages = {
-  "c", "cpp", "python", "rust", "lua", "bash", "sh", "zsh"
+    "c",
+    "cpp",
+    "python",
+    "rust",
+    "lua",
+    "bash",
+    "sh",
+    "zsh",
 }
 
 -- Filetype detection improvements
 vim.filetype.add({
-  extension = {
-    h = "c",
-    hpp = "cpp",
-    cxx = "cpp",
-    cc = "cpp"
-  },
-  pattern = {
-    [".*%.env%..*"] = "sh",
-    ["%.env"] = "sh"
-  }
+    extension = {
+        h = "c",
+        hpp = "cpp",
+        cxx = "cpp",
+        cc = "cpp",
+    },
+    pattern = {
+        [".*%.env%..*"] = "sh",
+        ["%.env"] = "sh",
+    },
 })

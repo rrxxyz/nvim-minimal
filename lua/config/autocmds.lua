@@ -95,7 +95,13 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 -- Language-specific settings (table-driven approach)
 local lang_settings = {
-    { fts = { "c", "cpp" }, tabstop = 2, shiftwidth = 2, expandtab = true, commentstring = "// %s" },
+    {
+        fts = { "c", "cpp" },
+        tabstop = 2,
+        shiftwidth = 2,
+        expandtab = true,
+        commentstring = "// %s",
+    },
     { fts = { "python" }, tabstop = 4, shiftwidth = 4, expandtab = true },
     { fts = { "rust" }, tabstop = 4, shiftwidth = 4, expandtab = true },
     { fts = { "sh", "bash" }, tabstop = 2, shiftwidth = 2, expandtab = true },
@@ -108,23 +114,37 @@ for _, config in ipairs(lang_settings) do
         group = augroup("lang_" .. table.concat(config.fts, "_")),
         pattern = config.fts,
         callback = function()
-            if config.tabstop then vim.opt_local.tabstop = config.tabstop end
-            if config.shiftwidth then vim.opt_local.shiftwidth = config.shiftwidth end
-            if config.expandtab ~= nil then vim.opt_local.expandtab = config.expandtab end
-            if config.commentstring then vim.opt_local.commentstring = config.commentstring end
-            if config.conceallevel then vim.opt_local.conceallevel = config.conceallevel end
+            if config.tabstop then
+                vim.opt_local.tabstop = config.tabstop
+            end
+            if config.shiftwidth then
+                vim.opt_local.shiftwidth = config.shiftwidth
+            end
+            if config.expandtab ~= nil then
+                vim.opt_local.expandtab = config.expandtab
+            end
+            if config.commentstring then
+                vim.opt_local.commentstring = config.commentstring
+            end
+            if config.conceallevel then
+                vim.opt_local.conceallevel = config.conceallevel
+            end
         end,
     })
 end
 
--- Auto format on save for specific languages
-vim.api.nvim_create_autocmd("BufWritePre", {
-    group = augroup("format_on_save"),
-    pattern = { "*.lua", "*.rs", "*.py", "*.c", "*.cpp", "*.sh", "*.md", "*.kt" },
+-- Show diagnostics in floating window on cursor hold
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = augroup("diagnostic_float"),
     callback = function()
-        if vim.b.disable_autoformat or vim.g.disable_autoformat then
-            return
-        end
-        vim.lsp.buf.format({ async = false })
+        local opts = {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = "rounded",
+            source = "if_many",
+            prefix = " ",
+            scope = "cursor",
+        }
+        vim.diagnostic.open_float(nil, opts)
     end,
 })

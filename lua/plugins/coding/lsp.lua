@@ -35,6 +35,23 @@ return {
             lua_ls = {},
             rust_analyzer = { enabled = false },
             clangd = {
+                root_markers = {
+                    "compile_commands.json",
+                    "compile_flags.txt",
+                    "configure.ac", -- AutoTools
+                    "Makefile",
+                    "CMakeLists.txt",
+                    "configure.ac",
+                    "configure.in",
+                    "config.h.in",
+                    "meson.build",
+                    "meson_options.txt",
+                    "build.ninja",
+                    ".git",
+                },
+                capabilities = {
+                    offsetEncoding = { "utf-16" },
+                },
                 cmd = {
                     "clangd",
                     "--background-index",
@@ -49,24 +66,6 @@ return {
                     completeUnimported = true,
                     clangdFileStatus = true,
                 },
-                root_dir = function(fname)
-                    return require("lspconfig.util").root_pattern(
-                        "Makefile",
-                        "configure.ac",
-                        "configure.in",
-                        "config.h.in",
-                        "meson.build",
-                        "meson_options.txt",
-                        "build.ninja",
-                        "CMakeLists.txt",
-                        ".git"
-                    )(fname) or require("lspconfig.util").root_pattern(
-                        "compile_commands.json",
-                        "compile_flags.txt"
-                    )(fname) or vim.fs.dirname(
-                        vim.fs.find(".git", { upward = true })[1]
-                    )
-                end,
             },
             pyright = {},
             bashls = {},
@@ -75,8 +74,23 @@ return {
         },
         setup = {
             clangd = function(_, opts)
-                require("clangd_extensions").setup({ server = opts })
-                return true
+                -- Manual "fetch" of ext opts: Start with plugin defaults, then merge user overrides.
+                local clangd_ext_opts = {}
+
+                -- Mimic user overrides: Require your custom opts file (e.g., lua/plugins/clangd.lua).
+                -- Assume it returns a table like { inlay_hints = { inline = false } }.
+                local user_opts = {}
+                local ok, custom = pcall(require, "plugins.lang.clangd")
+                if ok and type(custom) == "table" then
+                    user_opts = custom
+                end
+
+                -- Merge: defaults + user + server opts.
+                clangd_ext_opts = vim.tbl_deep_extend("force", clangd_ext_opts, user_opts)
+                require("clangd_extensions").setup(
+                    vim.tbl_deep_extend("force", clangd_ext_opts, { server = opts })
+                )
+                return false
             end,
         },
     },
@@ -111,11 +125,7 @@ return {
         vim.diagnostic.config({
             underline = true,
             update_in_insert = false,
-            virtual_text = {
-                spacing = 4,
-                source = "if_many",
-                prefix = "●",
-            },
+            virtual_text = false, -- Disable virtual text, use floating window instead
             severity_sort = true,
             signs = {
                 text = {
@@ -124,6 +134,12 @@ return {
                     [vim.diagnostic.severity.HINT] = "⚑",
                     [vim.diagnostic.severity.INFO] = "»",
                 },
+            },
+            float = {
+                border = "rounded",
+                source = "if_many",
+                header = "",
+                prefix = "",
             },
         })
     end,
