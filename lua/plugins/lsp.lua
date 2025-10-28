@@ -54,73 +54,77 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          Lua = {
-            completion = {
-              keywordSnippet = "Both",
-              displayContext = 5,
-              callSnippet = "Both",
-              workspaceWord = true,
-              showWord = "Disable",
-            },
-            diagnostics = {
-              globals = { "vim" },
-              neededFileStatus = "Opened",
-              groupSeverity = {
-                strong = "Warning",
-                strict = "Warning",
+          settings = {
+            Lua = {
+              completion = {
+                keywordSnippet = "Both",
+                displayContext = 5,
+                callSnippet = "Both",
+                workspaceWord = true,
+                showWord = "Disable",
               },
-              groupFileStatus = {
-                ["ambiguity"] = "Opened",
-                ["await"] = "Opened",
-                ["codestyle"] = "None",
-                ["duplicate"] = "Opened",
-                ["global"] = "Opened",
-                ["luadoc"] = "Opened",
-                ["redefined"] = "Opened",
-                ["strict"] = "Opened",
-                ["strong"] = "Opened",
-                ["type-check"] = "Opened",
-                ["unbalanced"] = "Opened",
-                ["unused"] = "Opened",
+              diagnostics = {
+                globals = { "vim" },
+                neededFileStatus = "Opened",
+                groupSeverity = {
+                  strong = "Warning",
+                  strict = "Warning",
+                },
+                groupFileStatus = {
+                  ["ambiguity"] = "Opened",
+                  ["await"] = "Opened",
+                  ["codestyle"] = "None",
+                  ["duplicate"] = "Opened",
+                  ["global"] = "Opened",
+                  ["luadoc"] = "Opened",
+                  ["redefined"] = "Opened",
+                  ["strict"] = "Opened",
+                  ["strong"] = "Opened",
+                  ["type-check"] = "Opened",
+                  ["unbalanced"] = "Opened",
+                  ["unused"] = "Opened",
+                },
               },
-            },
-            runtime = {
-              version = "LuaJIT",
-              pathStrict = true,
-            },
-            workspace = {
-              library = {
-                vim.env.VIMRUNTIME,
-                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                [vim.fn.stdpath("config") .. "/lua"] = true,
-                [vim.fn.stdpath("data") .. "/lazy"] = true,
+              runtime = {
+                version = "LuaJIT",
+                pathStrict = true,
               },
-              checkThirdParty = false,
-              maxPreload = 100000,
-              preloadFileSize = 10000,
-            },
-            telemetry = { enable = false },
-            hint = {
-              enable = true,
-              setType = true,
-              paramType = true,
-              paramName = "Disable",
-              semicolon = "Disable",
-              arrayIndex = "Disable",
-            },
-            format = {
-              enable = false,
+              workspace = {
+                library = {
+                  vim.env.VIMRUNTIME,
+                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                  [vim.fn.stdpath("config") .. "/lua"] = true,
+                  [vim.fn.stdpath("data") .. "/lazy"] = true,
+                },
+                checkThirdParty = false,
+                maxPreload = 100000,
+                preloadFileSize = 10000,
+              },
+              telemetry = { enable = false },
+              hint = {
+                enable = true,
+                setType = true,
+                paramType = true,
+                paramName = "Disable",
+                semicolon = "Disable",
+                arrayIndex = "Disable",
+              },
+              format = {
+                enable = false,
+              },
             },
           },
         },
       },
     },
     config = function(_, opts)
-      local lspconfig = require("lspconfig")
-
+      -- Setup LSP servers using the modern vim.lsp.config API
       for server, config in pairs(opts.servers) do
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        lspconfig[server].setup(config)
+
+        -- Use the modern vim.lsp.config API (Neovim 0.11+)
+        vim.lsp.config[server] = config
+        vim.lsp.enable(server)
       end
 
       -- Modern LSP floating window border configuration
