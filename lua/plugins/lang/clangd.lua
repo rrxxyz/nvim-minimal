@@ -12,12 +12,6 @@ return {
                 ft = { "c", "cpp", "objc", "objcpp", "cuda", "h", "hpp" },
             },
             {
-                "<leader>k",
-                "<cmd>ClangdSymbolInfo<CR>",
-                desc = "[C/C++] Show symbol information",
-                ft = { "c", "cpp", "objc", "objcpp", "cuda", "h", "hpp" },
-            },
-            {
                 "<leader>ch",
                 "<cmd>ClangdTypeHierarchy<CR>",
                 desc = "[C/C++] Show C/C++ Type hierarchy",
