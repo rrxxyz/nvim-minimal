@@ -69,6 +69,8 @@ return {
                     virtual_text = true,
                     virtual_text_str = "■",
                 },
+                -- Explicitly use FVM dart binary
+                cmd = { vim.fn.expand("~/fvm/default/bin/dart"), "language-server", "--protocol=lsp" },
                 on_attach = function(_, bufnr)
                     -- LSP keybindings (following standard LSP conventions)
                     local opts = { buffer = bufnr, silent = true }

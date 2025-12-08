@@ -37,6 +37,7 @@ return {
                     showGradleImportNotifications = false,
                 },
             },
+            kotlin_lsp = {},
             lua_ls = {},
             rust_analyzer = { enabled = false },
             mojo = {},

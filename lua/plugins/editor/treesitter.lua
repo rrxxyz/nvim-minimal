@@ -1,12 +1,10 @@
 return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
+    branch = "main",
     build = ":TSUpdate",
-    event = { "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0,
     init = function(plugin)
         require("lazy.core.loader").add_to_rtp(plugin)
-        require("nvim-treesitter.query_predicates")
     end,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
@@ -14,12 +12,9 @@ return {
         { "<bs>", desc = "Decrement Selection", mode = "x" },
     },
     opts = {
-        sync_install = false,
-        auto_install = true,
-        ignore_install = {},
-        modules = {},
-        highlight = { enable = true },
-        indent = { enable = true },
+        indent = { enable = true }, ---@type lazyvim.TSFeat
+        highlight = { enable = true }, ---@type lazyvim.TSFeat
+        folds = { enable = true }, ---@type lazyvim.TSFeat
         ensure_installed = {
             "c",
             "cpp",
@@ -32,6 +27,8 @@ return {
             "c_sharp",
             "dart",
             "cmake",
+            "c3",
+            "mojo",
             "make",
             "dockerfile",
             "toml",
@@ -60,7 +57,4 @@ return {
         },
     },
     opts_extend = { "ensure_installed" },
-    config = function(_, opts)
-        require("nvim-treesitter.configs").setup(opts)
-    end,
 }
