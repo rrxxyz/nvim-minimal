@@ -88,7 +88,7 @@ return {
 
         -- Terminal
         { "<leader>tt", function() Snacks.terminal.toggle() end, desc = "Toggle Terminal" },
-        { "<leader>tf", function() Snacks.terminal.toggle("float") end, desc = "Float Terminal" },
+        { "<leader>tf", function() Snacks.terminal.toggle(nil, { win = { style = "float" } }) end, desc = "Float Terminal" },
 
         -- Zen mode
         { "<leader>uz", function() Snacks.zen.toggle() end, desc = "Toggle Zen Mode" },

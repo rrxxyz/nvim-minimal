@@ -1,5 +1,17 @@
 return {
     {
+        "dart-lang/dart-vim-plugin",
+        ft = { "dart" },
+        init = function()
+            vim.g.dart_format_on_save = true
+            vim.g.dart_html_in_string = true
+            vim.g.dart_style_guide = 2
+        end,
+        keys = {
+            { "<leader>cf", "<cmd>DartFmt<cr>", desc = "Dart: Format" },
+        },
+    },
+    {
         "nvim-flutter/flutter-tools.nvim",
         ft = { "dart" },
         dependencies = {
@@ -24,9 +36,9 @@ return {
                 exception_breakpoints = {},
                 register_configurations = function(_)
                     require("dap").configurations.dart = {}
-                    require("dap.ext.vscode").load_launchjs()
                 end,
             },
+            flutter_path = "/usr/lib/flutter",
             fvm = true, -- Enable FVM support
             widget_guides = {
                 enabled = true,
@@ -105,7 +117,11 @@ return {
             -- LSP and utilities
             { "<leader>aL", "<cmd>FlutterLspRestart<cr>", desc = "Flutter: Restart LSP" },
             { "<leader>an", "<cmd>FlutterRename<cr>", desc = "Flutter: Rename File" },
-            { "<leader>aC", "<cmd>FlutterCopyProfilerUrl<cr>", desc = "Flutter: Copy Profiler URL" },
+            {
+                "<leader>aC",
+                "<cmd>FlutterCopyProfilerUrl<cr>",
+                desc = "Flutter: Copy Profiler URL",
+            },
 
             -- Dev log
             { "<leader>av", "<cmd>FlutterDevLog<cr>", desc = "Flutter: Show Dev Log" },

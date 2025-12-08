@@ -1,23 +1,125 @@
 return {
     "mfussenegger/nvim-dap",
     keys = {
-        { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
-        { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-        { "<leader>dc", function() require("dap").continue() end, desc = "Run/Continue" },
-        { "<leader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-        { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-        { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
-        { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
-        { "<leader>dj", function() require("dap").down() end, desc = "Down" },
-        { "<leader>dk", function() require("dap").up() end, desc = "Up" },
-        { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-        { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
-        { "<leader>dO", function() require("dap").step_over() end, desc = "Step Over" },
-        { "<leader>dP", function() require("dap").pause() end, desc = "Pause" },
-        { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
-        { "<leader>ds", function() require("dap").session() end, desc = "Session" },
-        { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-        { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+        {
+            "<leader>dB",
+            function()
+                require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+            end,
+            desc = "Breakpoint Condition",
+        },
+        {
+            "<leader>db",
+            function()
+                require("dap").toggle_breakpoint()
+            end,
+            desc = "Toggle Breakpoint",
+        },
+        {
+            "<leader>dc",
+            function()
+                require("dap").continue()
+            end,
+            desc = "Run/Continue",
+        },
+        {
+            "<leader>da",
+            function()
+                require("dap").continue({ before = get_args })
+            end,
+            desc = "Run with Args",
+        },
+        {
+            "<leader>dC",
+            function()
+                require("dap").run_to_cursor()
+            end,
+            desc = "Run to Cursor",
+        },
+        {
+            "<leader>dg",
+            function()
+                require("dap").goto_()
+            end,
+            desc = "Go to Line (No Execute)",
+        },
+        {
+            "<leader>di",
+            function()
+                require("dap").step_into()
+            end,
+            desc = "Step Into",
+        },
+        {
+            "<leader>dj",
+            function()
+                require("dap").down()
+            end,
+            desc = "Down",
+        },
+        {
+            "<leader>dk",
+            function()
+                require("dap").up()
+            end,
+            desc = "Up",
+        },
+        {
+            "<leader>dl",
+            function()
+                require("dap").run_last()
+            end,
+            desc = "Run Last",
+        },
+        {
+            "<leader>do",
+            function()
+                require("dap").step_out()
+            end,
+            desc = "Step Out",
+        },
+        {
+            "<leader>dO",
+            function()
+                require("dap").step_over()
+            end,
+            desc = "Step Over",
+        },
+        {
+            "<leader>dP",
+            function()
+                require("dap").pause()
+            end,
+            desc = "Pause",
+        },
+        {
+            "<leader>dr",
+            function()
+                require("dap").repl.toggle()
+            end,
+            desc = "Toggle REPL",
+        },
+        {
+            "<leader>ds",
+            function()
+                require("dap").session()
+            end,
+            desc = "Session",
+        },
+        {
+            "<leader>dt",
+            function()
+                require("dap").terminate()
+            end,
+            desc = "Terminate",
+        },
+        {
+            "<leader>dw",
+            function()
+                require("dap.ui.widgets").hover()
+            end,
+            desc = "Widgets",
+        },
     },
     config = function()
         local dap = require("dap")
@@ -39,7 +141,10 @@ return {
                 local host = (config.connect or config).host or "127.0.0.1"
                 cb({
                     type = "server",
-                    port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+                    port = assert(
+                        port,
+                        "`connect.port` is required for a python `attach` configuration"
+                    ),
                     host = host,
                     options = {
                         source_filetype = "python",
@@ -69,7 +174,8 @@ return {
         if not dap.adapters.bashdb then
             dap.adapters.bashdb = {
                 type = "executable",
-                command = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/bash-debug-adapter",
+                command = vim.fn.stdpath("data")
+                    .. "/mason/packages/bash-debug-adapter/bash-debug-adapter",
                 name = "bashdb",
             }
         end
@@ -81,7 +187,11 @@ return {
                 type = "codelldb",
                 request = "launch",
                 program = function()
-                    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                    return vim.fn.input(
+                        "Path to executable: ",
+                        vim.fn.getcwd() .. "/target/debug/",
+                        "file"
+                    )
                 end,
                 cwd = "${workspaceFolder}",
                 stopOnEntry = false,
@@ -95,7 +205,11 @@ return {
                 miDebuggerPath = "/usr/bin/gdb",
                 cwd = "${workspaceFolder}",
                 program = function()
-                    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                    return vim.fn.input(
+                        "Path to executable: ",
+                        vim.fn.getcwd() .. "/target/debug/",
+                        "file"
+                    )
                 end,
             },
         }
@@ -163,9 +277,17 @@ return {
                 request = "launch",
                 name = "This file",
                 mainClass = function()
-                    local root = vim.fs.find("src", { path = vim.uv.cwd(), upward = true, stop = vim.env.HOME })[1] or ""
+                    local root = vim.fs.find(
+                        "src",
+                        { path = vim.uv.cwd(), upward = true, stop = vim.env.HOME }
+                    )[1] or ""
                     local fname = vim.api.nvim_buf_get_name(0)
-                    return fname:gsub(root, ""):gsub("main/kotlin/", ""):gsub(".kt", "Kt"):gsub("/", "."):sub(2, -1)
+                    return fname
+                        :gsub(root, "")
+                        :gsub("main/kotlin/", "")
+                        :gsub(".kt", "Kt")
+                        :gsub("/", ".")
+                        :sub(2, -1)
                 end,
                 projectRoot = "${workspaceFolder}",
                 jsonLogFile = "",
@@ -190,8 +312,10 @@ return {
                 request = "launch",
                 name = "Launch file",
                 showDebugOutput = true,
-                pathBashdb = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb",
-                pathBashdbLib = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir",
+                pathBashdb = vim.fn.stdpath("data")
+                    .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb",
+                pathBashdbLib = vim.fn.stdpath("data")
+                    .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir",
                 trace = true,
                 file = "${file}",
                 program = "${file}",

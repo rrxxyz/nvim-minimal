@@ -27,13 +27,14 @@ return {
             "marksman",
             "prettier",
             "markdownlint",
+            "markdownlint-cli2",
+            "markdown-toc",
             -- JSON/YAML
             "jsonlint",
             "yamllint",
             -- Kotlin
             "kotlin-debug-adapter",
             "kotlin-language-server",
-            "kotlin-lsp",
             "ktlint",
             -- Additional formatters
             "taplo",

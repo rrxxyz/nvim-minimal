@@ -21,7 +21,6 @@ return {
             python = { "ruff_fix", "ruff_format", "black", "isort" },
             sh = { "shfmt" },
             bash = { "shfmt" },
-            markdown = { "prettier" },
             json = { "prettier" },
             yaml = { "prettier" },
             toml = { "taplo" },

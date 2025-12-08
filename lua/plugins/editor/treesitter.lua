@@ -30,6 +30,7 @@ return {
             "markdown",
             "kotlin",
             "c_sharp",
+            "dart",
             "cmake",
             "make",
             "dockerfile",

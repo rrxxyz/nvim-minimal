@@ -17,23 +17,30 @@ return {
     opts = {
         servers = {
             gradle_ls = {},
-            kotlin_language_server = {},
-            kotlin_lsp = {
-                filetypes = { "kotlin" },
-                cmd = { "kotlin-lsp", "--stdio" },
+            kotlin_language_server = {
                 root_dir = function(fname)
                     return require("lspconfig.util").root_pattern(
                         "settings.gradle",
                         "settings.gradle.kts",
                         "build.gradle",
                         "build.gradle.kts",
-                        "pom.xml",
-                        "workspace.json"
+                        "gradlew",
+                        "gradlew.bat",
+                        ".git"
                     )(fname)
                 end,
+                init_options = {
+                    jvmTarget = "21",
+                    showBuildScriptGradleNotifications = false,
+                    showKotlinGradleNotifications = false,
+                    showKotlinScriptGradleNotifications = false,
+                    showGradleImportNotifications = false,
+                },
             },
             lua_ls = {},
             rust_analyzer = { enabled = false },
+            mojo = {},
+            c3_lsp = {},
             clangd = {
                 root_markers = {
                     "compile_commands.json",
@@ -95,7 +102,8 @@ return {
         },
     },
     config = function(_, opts)
-        local lspconfig = require("lspconfig")
+        -- Setup mason-lspconfig with automatic_enable disabled
+        -- We'll manually enable servers to have more control
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
@@ -105,20 +113,45 @@ return {
                 "marksman",
                 "gradle_ls",
                 "neocmake",
-                "kotlin_lsp",
                 "rust_analyzer",
                 "kotlin_language_server",
             },
             automatic_installation = true,
-            handlers = {
-                function(server_name)
-                    local server_config = opts.servers[server_name] or {}
-                    server_config.capabilities =
-                        require("blink.cmp").get_lsp_capabilities(server_config.capabilities)
-                    lspconfig[server_name].setup(server_config)
-                end,
-            },
+            automatic_enable = false, -- Disable automatic enabling to use manual control
         })
+
+        -- Get the list of Mason-installed servers
+        local mason_lspconfig = require("mason-lspconfig")
+        local installed_servers = mason_lspconfig.get_installed_servers()
+
+        -- Configure and enable all servers (both Mason and non-Mason)
+        for server_name, server_config in pairs(opts.servers) do
+            -- Skip if server is explicitly disabled
+            if server_config.enabled == false then
+                goto continue
+            end
+
+            -- Handle custom setup functions (like clangd)
+            if opts.setup[server_name] then
+                if opts.setup[server_name](server_name, server_config) then
+                    goto continue
+                end
+            end
+
+            -- Deep copy config to avoid mutations
+            local config = vim.deepcopy(server_config)
+
+            -- Add blink.cmp capabilities
+            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+
+            -- Use vim.lsp.config for configuration
+            vim.lsp.config(server_name, config)
+
+            -- Enable the server
+            vim.lsp.enable(server_name)
+
+            ::continue::
+        end
 
         vim.o.winborder = "rounded"
 

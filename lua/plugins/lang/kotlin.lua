@@ -10,9 +10,9 @@ return {
                 height = 15,
                 width = 100,
                 filters = {
-                    package = "mine",   -- "mine" (project package), specific package, or "none"
-                    log_level = "v",    -- v, d, i, w, e, f (verbose shows all)
-                    tag = nil,          -- specific tag to filter, or nil for no tag filtering
+                    package = "mine", -- "mine" (project package), specific package, or "none"
+                    log_level = "v", -- v, d, i, w, e, f (verbose shows all)
+                    tag = nil, -- specific tag to filter, or nil for no tag filtering
                     grep_pattern = nil, -- regex pattern for content filtering, or nil
                 },
             },
@@ -26,19 +26,19 @@ return {
             },
         },
         keys = {
-            { "<leader>ar", "<cmd>DroidRun<cr>",        desc = "Android: Build and Run" },
+            { "<leader>ar", "<cmd>DroidRun<cr>", desc = "Android: Build and Run" },
             { "<leader>ab", "<cmd>DroidBuildDebug<cr>", desc = "Android: Build Debug" },
-            { "<leader>ac", "<cmd>DroidClean<cr>",      desc = "Android: Clean Project" },
-            { "<leader>as", "<cmd>DroidSync<cr>",       desc = "Android: Sync Dependencies" },
-            { "<leader>ai", "<cmd>DroidInstall<cr>",    desc = "Android: Install Debug APK" },
-            { "<leader>ad", "<cmd>DroidDevices<cr>",    desc = "Android: Choose Device/AVD" },
-            { "<leader>ae", "<cmd>DroidEmulator<cr>",   desc = "Android: Launch Emulator" },
+            { "<leader>ac", "<cmd>DroidClean<cr>", desc = "Android: Clean Project" },
+            { "<leader>as", "<cmd>DroidSync<cr>", desc = "Android: Sync Dependencies" },
+            { "<leader>ai", "<cmd>DroidInstall<cr>", desc = "Android: Install Debug APK" },
+            { "<leader>ad", "<cmd>DroidDevices<cr>", desc = "Android: Choose Device/AVD" },
+            { "<leader>ae", "<cmd>DroidEmulator<cr>", desc = "Android: Launch Emulator" },
             {
                 "<leader>aS",
                 "<cmd>DroidStartEmulator<cr>",
                 desc = "Android: Start Specific Emulator",
             },
-            { "<leader>al", "<cmd>DroidLogcat<cr>",     desc = "Android: Show Logcat" },
+            { "<leader>al", "<cmd>DroidLogcat<cr>", desc = "Android: Show Logcat" },
             { "<leader>aL", "<cmd>DroidLogcatStop<cr>", desc = "Android: Stop Logcat" },
             {
                 "<leader>aA",
